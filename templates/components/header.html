@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<header
+  class="sticky top-4 left-0 mx-4 md:mx-auto max-w-[767px] p-4 shadow-md rounded-lg bg-white z-40"
+  @click.outside="asideOpen = false"
+>
+  <nav class="flex items-center justify-between">
+
+    <ul>
+
+      <li>
+        <i
+          role="button"
+          @click="asideOpen = true"
+          class="bx bx-menu btn-icon"
+        ></i>
+      </li>
+      
+    </ul>
+
+    <c-breadcrumb></c-breadcrumb>
+
+    <c-user-context></c-user-context>
+
+  </nav>
+
+  {{ slot }}
+</header>

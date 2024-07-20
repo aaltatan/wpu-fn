@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<form
+hx-post="{% url 'faculties:add' %}"
+hx-target="this"
+hx-swap="outerHTML"
+data-hit-messages
+>
+
+    <div class="form">
+        {{ form }}
+    </div>
+
+    <div class="mt-8 flex items-center gap-2">
+
+        <input 
+        role="button"
+        type="submit" 
+        class="btn btn-primary ml-auto" 
+        name="save_and_add_another" 
+        title="{% translate 'save and add another' %}"
+        value="{% translate 'save and add another' %}" />
+
+        <input 
+        role="button"
+        type="submit" 
+        class="btn btn-primary" 
+        title="{% translate 'save' %}"
+        name="save" value="{% translate 'save' %}"/>
+
+        <button
+        hx-delete="{% url 'faculties:add' %}"
+        hx-target="closest form"
+        hx-swap="outerHTML"
+        class="btn btn-secondary"
+        title="{% translate 'reset' %}"
+        >
+            <i class="bx bx-reset text-lg"></i>
+            <span>{% translate 'reset' %}</span>
+        </button>
+
+    </div>
+
+</form>
+
+<script type="module">
+    import { addHitMessagesEventListeners } from '../../static/js/main.js';
+    addHitMessagesEventListeners();
+</script>

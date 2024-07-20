@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<div 
+@click.outside="modalOpen = false"
+class="shadow-md rounded-lg overflow-hidden">
+    <header class="bg-white px-4 py-2">
+        <p class="font-semibold tracking-tight text-xl">
+            {{ header }} 
+            <!--  -->
+        </p>
+    </header>
+    <div class="p-4 bg-white max-h-[300px] shadow-inner overflow-auto">
+        {{ body }}
+        <!--  -->
+    </div>
+    <footer class="bg-white border-t border-slate-200 px-4 py-2 flex items-center">
+        <div class="ml-auto flex items-center gap-1">
+            <span 
+            role="button"
+            @click="modalOpen = false"
+            class="btn btn-secondary">
+                {% translate 'close' %}
+            </span>
+            {{ footer }}
+            <!--  -->
+        </div>
+    </footer>
+</div>

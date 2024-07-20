@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+form  {
+
+    &:has(.form) {
+        @apply p-4 border border-slate-100 rounded-lg;
+    };
+
+    & .form > * + * { @apply mb-1 }
+    & .form > div > label { 
+        @apply pl-2 inline-block font-semibold tracking-tight my-2;
+    }
+    & .form > div > label:hover + .helptext { 
+        @apply opacity-100;
+    }
+    & .form > div > .helptext { 
+        @apply opacity-0 duration-150 inline-block text-sm text-white ml-2 px-2 py-1 rounded-md bg-slate-400 capitalize;
+    }
+    & .form ul.errorlist li {
+        @apply text-red-600 font-semibold mb-2 pl-4;
+    }
+    & .form ul.errorlist + input {
+        @apply !ring-2 !ring-red-600 !bg-red-50;
+    }
+}
+
+table {
+    @apply border-collapse;
+    & tbody { @apply divide-y divide-slate-100 }
+    & td, th { @apply px-2 py-1 text-nowrap text-center }
+    & tbody tr { @apply duration-150 }
+    & tbody tr:hover { @apply bg-slate-50 }
+    & tr td > input[type="checkbox"] { @apply accent-orange-600 }
+    & tr:has(td > input[type="checkbox"]:checked) {
+        @apply !bg-orange-200 hover:!bg-orange-300;
+    }
+}
+
+[role="modal"] > * {
+    @apply w-[min(100%,600px)] mx-4;
+}
+
+.input {
+    @apply px-4 py-2 outline-none focus:ring-2 focus:ring-orange-600 rounded-lg bg-slate-50 hover:bg-slate-100;
+}
+
+.btn {
+    @apply cursor-pointer rounded-lg px-2 py-1 capitalize duration-150 tracking-tighter font-semibold focus:ring-2 outline-none;
+}
+.btn:has(*) {
+    @apply flex items-center justify-center gap-1;
+}
+
+.btn-icon {
+    @apply text-xl duration-150 hover:bg-slate-200 p-1 rounded-full;
+}
+
+.btn-primary {
+    @apply text-white bg-orange-500 hover:bg-orange-600 focus:ring-orange-700;
+}
+
+.btn-secondary {
+    @apply text-white bg-slate-700 hover:bg-slate-800 focus:ring-slate-900;
+}
+
+.btn-red {
+    @apply text-white bg-red-600 hover:bg-red-700 focus:ring-red-800;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-animation {
+    animation: fade 150ms ease-in;
+}

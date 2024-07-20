@@ -1,0 +1,91 @@
+{% load i18n %}
+
+<div class="flex items-center justify-between">
+
+    <div class="flex items-center justify-between">
+      {% if page_obj.has_previous %}
+      <i
+        role="button"
+        hx-get="{{ url }}?page=1"
+        hx-target="{{ target }}"
+        hx-include="{{ include }}"
+        hx-on::after-request="resetTableIdx()"
+        hx-swap="outerHTML"
+        title="{% translate 'first page'|title %}"
+        class="bx bx-chevrons-left btn-icon"
+      ></i>
+      {% else %}
+      <i class="bx bx-chevrons-left text-xl p-1 opacity-45"></i>
+      {% endif %} 
+      
+      {% if page_obj.has_previous %}
+      <i
+        role="button"
+        hx-get="{{ url }}?page={{ page_obj.previous_page_number }}"
+        hx-target="{{ target }}"
+        hx-include="{{ include }}"
+        hx-on::after-request="resetTableIdx()"
+        hx-swap="outerHTML"
+        title="{% translate 'previous page'|title %}"
+        class="bx bx-chevron-left btn-icon"
+      ></i>
+      {% else %}
+      <i class="bx bx-chevron-left text-xl p-1 opacity-45"></i>
+      {% endif %} 
+
+      <!--  -->
+      <div class="text-slate-600 text-sm font-semibold mx-2">
+        <span>{{ page_obj.number }}</span>
+        <span>/</span>
+        <span>{{ page_obj.paginator.num_pages }}</span>
+      </div>
+      <!--  -->
+      
+      {% if page_obj.has_next %}
+      <i
+        role="button"
+        hx-get="{{ url }}?page={{ page_obj.next_page_number }}"
+        hx-target="{{ target }}"
+        hx-include="{{ include }}"
+        hx-on::after-request="resetTableIdx()"
+        hx-swap="outerHTML"
+        title="{% translate 'next page'|title %}"
+        class="bx bx-chevron-right btn-icon"
+      ></i>
+      {% else %}
+      <i class="bx bx-chevron-right text-xl p-1 opacity-45"></i>
+      {% endif %} 
+      
+      {% if page_obj.has_next %}
+      <i
+        role="button"
+        hx-get="{{ url }}?page={{ page_obj.paginator.num_pages }}"
+        hx-target="{{ target }}"
+        hx-include="{{ include }}"
+        hx-on::after-request="resetTableIdx()"
+        hx-swap="outerHTML"
+        title="{% translate 'last page'|title %}"
+        class="bx bx-chevrons-right btn-icon"
+      ></i>
+      {% else %}
+      <i class="bx bx-chevrons-right text-xl p-1 opacity-45"></i>
+      {% endif %}
+    </div>
+
+    <div class="flex items-center gap-1 justify-center">
+      {{ slot }}
+      <!--  -->
+    </div>
+
+    <div class="text-sm flex items-center justify-center gap-1 text-slate-600">
+
+        <span>{% translate 'record' %}</span>
+        <span>{{ page_obj.start_index }}</span>
+        <span>-</span>
+        <span>{{ page_obj.end_index }}</span>
+        <span>{% translate 'of' %}</span>
+        <span>{{ page_obj.paginator.count }}</span>
+
+    </div>
+
+</div>

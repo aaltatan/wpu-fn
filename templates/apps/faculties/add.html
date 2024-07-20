@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'add new faculty'|title %}{% endblock %}
+
+{% block body %}
+
+    <template 
+    x-init="let hrefs = [
+        {
+            text: '{% translate 'faculties' %}', 
+            href: '{% url 'faculties:index' %}'
+        },
+        {
+            text: '{% translate 'add new' %}', 
+            href: '{% url 'faculties:add' %}'
+        },
+    ];
+    breadCrumbs = [...breadCrumbs, ...hrefs]"
+    ></template>
+
+    <h1 class="text-4xl font-semibold tracking-tighter capitalize my-4">
+        {% translate 'add new' %}
+    </h1>
+
+    {% include 'apps/faculties/partials/add-form.html' %}
+
+{% endblock %}

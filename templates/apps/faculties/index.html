@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'faculties'|title %}{% endblock %}
+
+
+{% block body %}
+
+    <c-spinner
+    hx-get="{% url 'faculties:index' %}"
+    hx-trigger="load"
+    hx-target="#faculties-table"
+    hx-swap="outerHTML"
+    ></c-spinner>
+
+    <template 
+    x-init="breadCrumbs.push(
+        {
+            text: '{% translate 'faculties' %}', 
+            href: '{% url 'faculties:index' %}'
+        }
+    )"
+    ></template>
+
+    <h1 class="text-4xl font-semibold tracking-tighter capitalize my-4">
+        {% translate 'faculties' %}
+    </h1>
+
+    {% include 'apps/faculties/partials/table.html' %}
+
+    <script type="module">
+        import { addHitMessagesEventListeners } from '../static/js/main.js';
+        addHitMessagesEventListeners()
+    </script>
+
+{% endblock %}

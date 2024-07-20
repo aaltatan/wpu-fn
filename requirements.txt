@@ -1,0 +1,14 @@
+django
+django-extensions
+django-filter
+django-cotton==0.9.21
+django-htmx
+django-debug-toolbar
+whitenoise
+blacknoise
+uvicorn
+httpx
+selectolax
+python-dotenv
+openpyxl
+psycopg2-binary

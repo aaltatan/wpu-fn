@@ -1,0 +1,54 @@
+{% load i18n %}
+
+<div
+  x-cloak
+  :class="asideOpen ? 'left-0' : 'left-[-300px]' "
+  class="fixed top-0 w-[min(100%,300px)] h-screen bg-slate-800 text-white shadow-sm z-50 duration-150"
+>
+  <aside class="relative p-3 bg- h-full overflow-y-auto overflow-x-hidden">
+
+    <i role="button" @click="asideOpen = false" class='bx bx-x !hidden max-sm:!flex items-center justify-center absolute right-2 top-2 rounded-full p-1 hover:bg-slate-900 text-lg'></i>
+
+    <div>
+      <a href="{% url 'base:index' %}">
+        <h1 class="text-xl text-center mt-8 md:mt-4 mb-4 font-semibold tracking-tighter">
+          {% translate 'WPU Financial Management' %}
+        </h1>
+      </a>
+    </div>
+    <ul 
+    class="p-2" 
+    x-data="{
+    urls: [
+        {
+          text: '{% translate 'faculties' %}', 
+          url: '{% url 'faculties:index' %}', 
+          isActive: true,
+          iconClass: 'bx bx-buildings',
+        },
+        {
+          text: '{% translate 'cash' %}', 
+          url: '{% url 'base:index' %}', 
+          isActive: false,
+          iconClass: 'bx bx-coin',
+        },
+      ]
+    }"
+    >
+      <template x-for="url in urls">
+        <li class="my-2">
+          <a 
+            :href="url.url"
+            :class="url.isActive && 'bg-slate-900'"
+            class="flex items-center gap-2 p-4 rounded-lg hover:bg-slate-950  tracking-tight duration-150"
+          >
+            <span class="flex items-center justify-center">
+              <i class="text-xl" :class="url.iconClass"></i>
+            </span>
+            <span x-text="url.text" class="capitalize"></span>
+          </a>
+        </li>
+      </template>
+    </ul>
+  </aside>
+</div>

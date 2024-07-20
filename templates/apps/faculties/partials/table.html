@@ -1,0 +1,73 @@
+{% load i18n %}
+
+<c-table id="faculties-table">
+  
+  <c-slot name="filters">
+    <form
+      id="faculty-filter-form"
+      hx-get="{% url 'faculties:index' %}"
+      hx-target="#container"
+      hx-select="#container"
+      hx-swap="outerHTML"
+      data-include
+    >
+      {{ filter }}
+    </form>
+  </c-slot>
+
+  <c-slot name="headers">
+    <input type="hidden" id="page" name="page" value="{{ page_obj.number }}">
+    <th>{% translate 'name' %}</th>
+  </c-slot>
+
+  <c-slot name="body">
+    {% for faculty in page_obj %}
+    <tr id="faculty-{{ faculty.id }}" class="fade-animation">
+      {% with page_obj.start_index|add:forloop.counter|add:-1 as row_num %}
+      <td><input name type="checkbox"></td>
+      <td>{{ faculty.name }}</td>
+      <td>
+        <c-context>
+          <c-context-item
+            hx-get="{% url 'faculties:delete' pk=faculty.pk %}"
+            hx-target="#modal"
+            hx-swap="innerHTML"
+            hx-include="#page"
+            @click="modalOpen = true"
+            >{% translate 'delete' %}</c-context-item
+          >
+          <c-context-item>{% translate 'edit' %} </c-context-item>
+        </c-context>
+      </td>
+      {% endwith %}
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3" class="text-left font-semibold tracking-tight capitalize">
+        {% translate 'no results' %}
+      </td>
+    </tr>
+    {% endfor %}
+  </c-slot>
+
+  <c-slot name="pagination">
+    <c-pagination
+        url="{% url 'faculties:index' %}"
+        target="#faculties-table"
+        include="#faculty-filter-form"
+      >
+        <i
+        role="button"
+        title="{% translate 'export to xlsx'|title %}"
+        class="bx bx-spreadsheet btn-icon"
+        ></i>
+        <a
+        role="button"
+        title="{% translate 'add new record'|title %}"
+        class="bx bx-plus btn-icon"
+        href="{% url 'faculties:add' %}"
+        ></a>
+    </c-pagination>
+  </c-slot>
+
+</c-table>

@@ -1,0 +1,24 @@
+<ul
+  hx-get="{% url 'base:messages' %}"
+  hx-swap="outerHTML"
+  hx-target="#messages"
+  hx-trigger="click"
+  id="messages"
+  class="left-1/2 -translate-x-1/2 w-[90%] rounded-md fixed bottom-4 z-10 duration-150 scale-100"
+>
+  {% for message in messages %}
+  <li
+    class="{% if message.tags %} {{ message.tags }} {% endif %} text-white p-1 text-sm font-semibold text-center capitalize"
+  >
+    {{ message }}
+  </li>
+  {% endfor %}
+</ul>
+
+<script>
+  var messages = document.getElementById("messages");
+  setTimeout(() => {
+    messages.classList.remove("bottom-4");
+    messages.classList.add("-bottom-12");
+  }, 2000);
+</script>
