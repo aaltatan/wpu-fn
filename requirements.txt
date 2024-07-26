@@ -3,10 +3,12 @@ django-extensions
 django-filter
 django-cotton==0.9.21
 django-htmx
-django-debug-toolbar
+django-querycount
+django-excel-response
 whitenoise
 blacknoise
 uvicorn
+six
 httpx
 selectolax
 python-dotenv

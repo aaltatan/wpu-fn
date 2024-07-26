@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <form
-hx-post="{% url 'faculties:add' %}"
+hx-post="{{ instance.get_update_path }}"
 hx-target="this"
 hx-swap="outerHTML"
 data-hit-messages
@@ -20,16 +20,8 @@ data-hit-messages
         title="{% translate 'update'|title %}"
         name="update" value="{% translate 'update' %}"/>
 
-        <input 
-        role="button"
-        type="submit" 
-        class="btn btn-primary" 
-        name="save_and_add_another" 
-        title="{% translate 'save and add another'|title %}"
-        value="{% translate 'save and add another' %}" />
-
         <button
-        hx-delete="{% url 'faculties:add' %}"
+        hx-delete="{{ instance.get_update_path }}"
         hx-target="closest form"
         hx-swap="outerHTML"
         class="btn btn-secondary"
@@ -44,6 +36,6 @@ data-hit-messages
 </form>
 
 <script type="module">
-    import { addHitMessagesEventListeners } from '../../static/js/main.js';
+    import { addHitMessagesEventListeners } from '../../../static/js/main.js';
     addHitMessagesEventListeners();
 </script>

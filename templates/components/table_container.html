@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div 
+{{ attrs }}
+class="border border-slate-100 rounded-lg overflow-x-auto overflow-y-visible"
+>
+    {% if filters %}
+    <div class="p-4">
+        {{ filters }}
+    </div>
+    {% endif %}
+
+    <div id="container">
+
+        {{ table }}
+    
+        {% if pagination %}
+        <div class="p-2 border-t border-slate-100">
+            {{ pagination }}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>

@@ -15,7 +15,7 @@ from ..exceptions import (
 )
 
 
-class DeleteModalMixin:
+class DeleteMixin:
     
     class_name = None
     model = None
@@ -38,7 +38,7 @@ class DeleteModalMixin:
                 'you must define the template_name'
             )
             
-        instance = get_object_or_404(self.model, pk=kwargs.get('pk'))
+        instance = get_object_or_404(self.model, slug=kwargs.get('slug'))
         
         if not hasattr(instance, 'get_delete_path'):
             raise NotImplementedError('you need to implement get_delete_path property in your model.')
@@ -71,9 +71,9 @@ class DeleteModalMixin:
                 'you need to set hx_location_target'
             )
         
-        pk=kwargs.get('pk')
+        slug=kwargs.get('slug')
         
-        instance = get_object_or_404(self.model, pk=pk)
+        instance = get_object_or_404(self.model, slug=slug)
         response = HttpResponse('')
         
         if False:

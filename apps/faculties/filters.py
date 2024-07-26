@@ -19,6 +19,7 @@ attrs: dict[str, Any] = {
     'hx-select': "#container",
     'hx-trigger': 'input changed delay:500ms, search',
     'hx-swap': "outerHTML",
+    'hx-include': "[data-include]",
 }
 
 class FacultyFilterSet(filters.FilterSet):

@@ -12,7 +12,7 @@ from ..exceptions import (
     SuccessPathNotFound,
 )
 
-class AddNewMixin:
+class AddMixin:
     
     form_class = None
     template_name = None

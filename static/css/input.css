@@ -33,9 +33,9 @@ table {
     & td, th { @apply px-2 py-1 text-nowrap text-center }
     & tbody tr { @apply duration-150 }
     & tbody tr:hover { @apply bg-slate-50 }
-    & tr td > input[type="checkbox"] { @apply accent-orange-600 }
-    & tr:has(td > input[type="checkbox"]:checked) {
-        @apply !bg-orange-200 hover:!bg-orange-300;
+    & tr td input[type="checkbox"] { @apply accent-orange-600 }
+    & tr:has(td input[type="checkbox"]:checked) {
+        @apply !bg-orange-100 hover:!bg-orange-200;
     }
 }
 
