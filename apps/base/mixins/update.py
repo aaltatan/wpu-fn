@@ -4,16 +4,9 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 
-from ..exceptions import (
-    FormClassNotFound,
-    TemplateNameNotFound,
-    BaseTemplateNameNotFound,
-    UpdateFormTemplateNameNotFound,
-    SuccessPathNotFound,
-    ModelNotFound,
-)
+from .utils import RaiseUpdateExceptions
 
-class UpdateMixin:
+class UpdateMixin(RaiseUpdateExceptions):
     
     model = None
     form_class = None
@@ -24,20 +17,7 @@ class UpdateMixin:
 
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
         
-        if self.form_class is None:
-            raise FormClassNotFound(
-                'you need to set form_class like `forms.FacultyForm`'
-            )
-        
-        if self.template_name is None:
-            raise TemplateNameNotFound(
-                'you need to set template_name like `apps/faculties/add.html`'
-            )
-            
-        if self.model is None:
-            raise ModelNotFound(
-                'you need to set model like `models.Faculty`'
-            )
+        self.raise_exceptions_if_necessary()
             
         instance = get_object_or_404(self.model, slug=slug)
         
@@ -60,21 +40,6 @@ class UpdateMixin:
     
     
     def post(self, request: HttpRequest, slug: int) -> HttpResponse:
-        
-        if self.base_template_name is None:
-            raise BaseTemplateNameNotFound(
-                'you need to set base_template_name like `apps/faculties/index.html`'
-            )
-        
-        if self.update_form_template is None:
-            raise UpdateFormTemplateNameNotFound(
-                'you need to set update_form_template like `apps/faculties/partials/update-form.html`'
-            )
-        
-        if self.success_path is None:
-            raise SuccessPathNotFound(
-                'you need to set success_path like `faculties:index`'
-            )
             
         instance = get_object_or_404(self.model, slug=slug)
         

@@ -6,16 +6,10 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
 from django.urls import reverse
 
-from ..exceptions import (
-    InstanceNameNotFound,
-    ModelNotFound,
-    TemplateNameNotFound,
-    HtmxLocationTargetNotFound,
-    HtmxLocationPathNotFound
-)
+from .utils import RaiseDeleteExceptions
 
 
-class DeleteMixin:
+class DeleteMixin(RaiseDeleteExceptions):
     
     class_name = None
     model = None
@@ -25,18 +19,7 @@ class DeleteMixin:
     
     def get(self, request, *args, **kwargs):
         
-        if self.class_name is None:
-            raise InstanceNameNotFound(
-                'you must define class_name'
-            )
-        if self.model is None:
-            raise ModelNotFound(
-                'you must define a model'
-            )
-        if self.template_name is None:
-            raise TemplateNameNotFound(
-                'you must define the template_name'
-            )
+        self.raise_exceptions_if_necessary()
             
         instance = get_object_or_404(self.model, slug=kwargs.get('slug'))
         
@@ -60,16 +43,6 @@ class DeleteMixin:
         return render(request, self.template_name, context)
     
     def post(self, request: HttpRequest, *args, **kwargs):
-        
-        if self.hx_location_path is None:
-            raise HtmxLocationPathNotFound(
-                'you need to set hx_location_path'
-            )
-        
-        if self.hx_location_target is None:
-            raise HtmxLocationTargetNotFound(
-                'you need to set hx_location_target'
-            )
         
         slug=kwargs.get('slug')
         

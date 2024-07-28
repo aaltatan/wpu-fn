@@ -7,33 +7,28 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.forms import modelformset_factory
 
-from ..exceptions import (
-    IndexTemplateNotFound,
-    FilterClassNotFound,
-)
+from .utils import RaiseListExceptions
 
-class ListMixin:
+class ListMixin(RaiseListExceptions):
     
+    model = None
     filter_class = None
-    index_template_name = None
     select_filter_class = None
+    template_name = None
+    index_template_name = None
+    pagination_form = None
+    pagination_form_attributes = None
     
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         
-        if self.index_template_name is None:
-            raise IndexTemplateNotFound(
-                'you need to set index_template_name like `apps/faculties/index.html`'
-            )
-            
+        self.raise_exceptions_if_necessary
+        
         if not request.htmx:
             return render(request, self.index_template_name, {})
         
         return super().get(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        
-        if self.filter_class is None:
-            raise FilterClassNotFound('you need to add filter_class like `filters.FacultyFilterSet`')
         
         context = super().get_context_data(**kwargs)
         

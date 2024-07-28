@@ -4,33 +4,21 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render
 
-from ..exceptions import (
-    FormClassNotFound,
-    TemplateNameNotFound,
-    BaseTemplateNameNotFound,
-    AddFormTemplateNameNotFound,
-    SuccessPathNotFound,
-)
+from .utils import RaiseAddExceptions
 
-class AddMixin:
+class AddMixin(RaiseAddExceptions):
     
+    # get
     form_class = None
     template_name = None
+    # post
     base_template_name = None
     add_form_template = None
     success_path = None
 
     def get(self, request: HttpRequest) -> HttpResponse:
         
-        if self.form_class is None:
-            raise FormClassNotFound(
-                'you need to set form_class like `forms.FacultyForm`'
-            )
-        
-        if self.template_name is None:
-            raise TemplateNameNotFound(
-                'you need to set template_name like `apps/faculties/add.html`'
-            )
+        self.raise_exceptions_if_necessary()
         
         context = {'form': self.form_class()}
         return render(request, self.template_name, context)
@@ -41,21 +29,6 @@ class AddMixin:
         return render(request, self.add_form_template, context)
     
     def post(self, request: HttpRequest) -> HttpResponse:
-        
-        if self.base_template_name is None:
-            raise BaseTemplateNameNotFound(
-                'you need to set base_template_name like `apps/faculties/index.html`'
-            )
-        
-        if self.add_form_template is None:
-            raise AddFormTemplateNameNotFound(
-                'you need to set add_form_template like `apps/faculties/partials/add-form.html`'
-            )
-        
-        if self.success_path is None:
-            raise SuccessPathNotFound(
-                'you need to set success_path like `faculties:index`'
-            )
         
         form = self.form_class(request.POST)
         context = {'form': form}

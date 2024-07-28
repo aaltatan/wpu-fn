@@ -36,13 +36,13 @@ class Faculty(models.Model):
         verbose_name_plural = _('faculties')
         ordering = ['name']
     
-    @property
-    def get_delete_path(self):
-        return reverse('faculties:delete', kwargs={'slug': self.slug})
+    # @property
+    # def get_delete_path(self):
+    #     return reverse('faculties:delete', kwargs={'slug': self.slug})
     
-    @property
-    def get_update_path(self):
-        return reverse('faculties:update', kwargs={'slug': self.slug})
+    # @property
+    # def get_update_path(self):
+    #     return reverse('faculties:update', kwargs={'slug': self.slug})
     
     def save(self, *args, **kwargs) -> None:
         self.slug = slugify(self.name, allow_unicode=True)

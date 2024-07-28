@@ -6,13 +6,9 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.urls import reverse
 
-from ..exceptions import (
-     ModelNotFound, 
-     HtmxLocationPathNotFound, 
-     HtmxLocationTargetNotFound
-)
+from .utils import RaiseBulkDeleteExceptions
 
-class BulkDeleteMixin:
+class BulkDeleteMixin(RaiseBulkDeleteExceptions):
     
     model = None
     hx_location_path = None
@@ -20,20 +16,7 @@ class BulkDeleteMixin:
         
     def post(self, request: HttpRequest):
         
-        if self.hx_location_path is None:
-            raise HtmxLocationPathNotFound(
-                'you need to set hx_location_path'
-            )
-        
-        if self.hx_location_target is None:
-            raise HtmxLocationTargetNotFound(
-                'you need to set hx_location_target'
-            )
-            
-        if self.model is None:
-            raise ModelNotFound(
-                'you must define a model'
-            )
+        self.raise_exceptions_if_necessary()
         
         response = HttpResponse('')
         
