@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% translate 'add new faculty'|title %}{% endblock %}
+{% block title %}{{ instance.name }}{% endblock %}
 
 {% block body %}
 
@@ -12,17 +12,17 @@
             href: '{% url 'faculties:index' %}'
         },
         {
-            text: '{% translate 'add new' %}', 
-            href: '{% url 'faculties:add' %}'
+            text: '{{ instance.name }}', 
+            href: '{% url 'faculties:create' %}'
         },
     ];
     breadCrumbs = [...breadCrumbs, ...hrefs]"
     ></template>
 
     <h1 class="text-4xl font-semibold tracking-tighter capitalize my-4">
-        {% translate 'add new' %}
+        {{ instance.name }}
     </h1>
 
-    {% include 'apps/faculties/partials/add-form.html' %}
+    {% include 'partials/update-form.html' %}
 
 {% endblock %}

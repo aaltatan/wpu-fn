@@ -7,21 +7,17 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.forms import modelformset_factory
 
-from .utils import RaiseListExceptions
-
-class ListMixin(RaiseListExceptions):
-    
-    model = None
-    filter_class = None
-    select_filter_class = None
-    template_name = None
-    index_template_name = None
-    pagination_form = None
-    pagination_form_attributes = None
+class ListMixin:
     
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         
-        self.raise_exceptions_if_necessary
+        if self.index_template_name is None:
+            raise Exception('you need to set index_template_name')
+        
+        for property in ['get_delete_path', 'get_update_path']:
+            if not hasattr(self.model, property):
+                model_name = self.model._meta.model_name.title()
+                raise NotImplementedError(f'you implement get_delete_path property on {model_name} model')
         
         if not request.htmx:
             return render(request, self.index_template_name, {})
@@ -31,6 +27,9 @@ class ListMixin(RaiseListExceptions):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         
         context = super().get_context_data(**kwargs)
+        
+        if self.filter_class is None:
+            raise Exception('you need to set filter_class')
         
         filter_from = self.filter_class(self.request.GET).form
         
@@ -91,9 +90,13 @@ class ListMixin(RaiseListExceptions):
         return paginator, page, page.object_list, page.has_other_pages()
     
     def get_pagination_form(self):
-        pagination_form = self.pagination_form(
+        
+        if self.paginate_by_form is None:
+            raise Exception('you need to set paginate_by_form and paginate_by_form_attributes')
+        
+        pagination_form = self.paginate_by_form(
             data=self.request.GET,
-            attrs=self.pagination_form_attributes
+            attrs=self.paginate_by_form_attributes
         )
         return pagination_form
     
@@ -101,7 +104,7 @@ class ListMixin(RaiseListExceptions):
         
         pagination_form = self.get_pagination_form()
         
-        per_page = self.pagination_form.PaginationChoices.TEN
+        per_page = self.paginate_by_form.PaginationChoices.TEN
             
         if pagination_form.data.get('per_page'):
             per_page = pagination_form.data.get('per_page')

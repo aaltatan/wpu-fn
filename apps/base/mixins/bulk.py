@@ -6,17 +6,12 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.urls import reverse
 
-from .utils import RaiseBulkDeleteExceptions
+from . import utils
 
-class BulkDeleteMixin(RaiseBulkDeleteExceptions):
+
+class BulkActionsMixin(utils.HelperMixin):
     
-    model = None
-    hx_location_path = None
-    hx_location_target = None
-        
     def post(self, request: HttpRequest):
-        
-        self.raise_exceptions_if_necessary()
         
         response = HttpResponse('')
         
@@ -29,14 +24,19 @@ class BulkDeleteMixin(RaiseBulkDeleteExceptions):
             int(request.POST.get(f'form-{pk}-id')) 
             for pk in selected_ids
         ]
-        self.model.objects.filter(pk__in=pks).delete()
+        
+        if self.model is None:
+            raise Exception('you need to set a model')
+        
+        if request.POST.get('bulk_delete'):
+            self.model.objects.filter(pk__in=pks).delete()
         
         messages.info(request, _('done'), 'bg-green-600')
         
         hx_location = {
-            'path': reverse(self.hx_location_path),
+            'path': reverse(self.get_hx_location_path()),
             'values': {**request.POST},
-            'target': self.hx_location_target,
+            'target': self.get_hx_location_target(),
             'swap': 'outerHTML',
         }
         response['Hx-Location'] = json.dumps(hx_location)

@@ -1,9 +1,12 @@
+from random import randint
+
 from django.db import models
 from django.db.models import Value, F
 from django.db.models.functions import Concat
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils.text import slugify
+from django.db.models.signals import pre_save
 
 
 class FacultyManager(models.Manager):
@@ -36,20 +39,35 @@ class Faculty(models.Model):
         verbose_name_plural = _('faculties')
         ordering = ['name']
     
-    # @property
-    # def get_delete_path(self):
-    #     return reverse('faculties:delete', kwargs={'slug': self.slug})
+    @property
+    def get_create_path(self):
+        return reverse('faculties:create')
     
-    # @property
-    # def get_update_path(self):
-    #     return reverse('faculties:update', kwargs={'slug': self.slug})
+    @property
+    def get_update_path(self):
+        return reverse('faculties:update', kwargs={'slug': self.slug})
     
-    def save(self, *args, **kwargs) -> None:
-        self.slug = slugify(self.name, allow_unicode=True)
-        return super().save(*args, **kwargs)
+    @property
+    def get_delete_path(self):
+        return reverse('faculties:delete', kwargs={'slug': self.slug})
     
     def __str__(self) -> str:
         return self.name
 
 
+def slugify_signal(sender, instance, *args, **kwargs):
+    
+    if instance.slug is None or instance == '':
+        
+        slug = slugify(instance.name, allow_unicode=True)
+        class_ = instance.__class__
+        
+        qs = class_.objects.filter(slug=slug).exclude(id=instance.id)
+        
+        if qs.exists():
+            slug += '-' + str(randint(300_000, 500_000))
+            
+        instance.slug = slug
 
+
+pre_save.connect(slugify_signal, Faculty)

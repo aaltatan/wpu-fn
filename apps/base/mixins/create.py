@@ -4,29 +4,28 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render
 
-from .utils import RaiseAddExceptions
+from . import utils
 
-class AddMixin(RaiseAddExceptions):
+class CreateMixin(utils.HelperMixin):
     
-    # get
-    form_class = None
-    template_name = None
-    # post
-    base_template_name = None
-    add_form_template = None
-    success_path = None
-
     def get(self, request: HttpRequest) -> HttpResponse:
         
-        self.raise_exceptions_if_necessary()
+        if self.form_class is None:
+            raise Exception('you need to set form_class')
         
-        context = {'form': self.form_class()}
+        model_class = self.form_class._meta.model
+        model_name = model_class._meta.model_name
+        
+        if not hasattr(model_class, 'get_create_path'):
+            raise NotImplementedError(f'you need to implement get_create_path property in {model_name} model')
+        
+        context = {'form': self.form_class(), 'instance': model_class}
         return render(request, self.template_name, context)
     
     def delete(self, request: HttpRequest) -> HttpResponse:
         
         context = {'form': self.form_class()}
-        return render(request, self.add_form_template, context)
+        return render(request, self.form_template_name, context)
     
     def post(self, request: HttpRequest) -> HttpResponse:
         
@@ -39,14 +38,17 @@ class AddMixin(RaiseAddExceptions):
             messages.info(request, _('done'), 'bg-green-600')
             
             if request.POST.get('save'):
-                response = render(request, self.base_template_name)
+                response = render(request, self.get_index_template_name())
                 response['Hx-Retarget'] = '#app'
                 response['Hx-Reselect'] = '#app'
                 response['Hx-Reswap'] = 'outerHTML'
-                response['Hx-Push-Url'] = reverse(self.success_path)
+                response['Hx-Push-Url'] = reverse(self.get_success_path())
                 return response
             
             if request.POST.get('save_and_add_another'):
                 context = {'form': self.form_class()}
-            
-        return render(request, self.add_form_template, context)
+        
+        if self.form_template_name is None:
+            raise Exception('you need to set form_template_name')
+        
+        return render(request, self.form_template_name, context)

@@ -18,11 +18,9 @@
   <c-slot name="table">
 
     <form 
-    hx-post="{% url 'faculties:bulk-delete' %}" 
+    hx-post="{% url 'faculties:bulk' %}" 
     hx-swap="innerHTML"
     hx-include="[data-include]"
-    hx-confirm="{% translate 'are sure you want to delete all selected objects?'|title %}"
-    hx-disinherit="hx-confirm"
     x-data="{ selectedRows: [] }"
     data-hit-messages>
 
@@ -73,7 +71,13 @@
               <p class="font-light text-left p-2 text-sm">
                 <span class="font-semibold" x-text="selectedRows.length"></span>
                 <span>{% translate 'selected objects' %}</span>
-                <input class="underline hover:font-semibold" type="submit" name="delete" value="{% translate 'delete'|title %}" role="button" title="{% translate 'delete'|title %}" />
+                <input 
+                type="submit" 
+                role="button" 
+                class="underline hover:font-semibold"
+                name="bulk_delete" 
+                value="{% translate 'delete'|title %}" 
+                title="{% translate 'delete'|title %}" />
               </p>
             </th>
           </tr>
@@ -82,14 +86,14 @@
 
         <c-slot name="tbody">
 
-          {% for faculty in formset.forms %}
-          <tr id="faculty-{{ faculty.instance.pk }}" class="fade-animation">
-            <td id="check-{{ faculty.instance.pk }}">{{ faculty }}</td>
-            <td>{{ faculty.instance.name }}</td>
+          {% for form in formset.forms %}
+          <tr class="fade-animation">
+            <td id="check-{{ form.instance.pk }}">{{ form }}</td>
+            <td>{{ form.instance.name }}</td>
             <td>
               <c-context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
                 <c-context-item
-                  hx-get="{{ faculty.instance.get_delete_path }}"
+                  hx-get="{{ form.instance.get_delete_path }}"
                   hx-target="#modal"
                   hx-swap="innerHTML"
                   hx-include="#page"
@@ -97,7 +101,7 @@
                   >{% translate 'delete' %}</c-context-item
                 >
                 <c-context-item>
-                  <a class="block" href="{{ faculty.instance.get_update_path }}">
+                  <a class="block" href="{{ form.instance.get_update_path }}">
                     {% translate 'update' %}
                   </a>
                 </c-context-item>
@@ -134,7 +138,7 @@
         role="button"
         title="{% translate 'add new record'|title %}"
         class="bx bx-plus btn-icon"
-        href="{% url 'faculties:add' %}"
+        href="{% url 'faculties:create' %}"
       ></a>
       {{ pagination_form }}
     </c-pagination>

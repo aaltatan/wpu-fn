@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <form
-hx-post="{% url 'faculties:add' %}"
+hx-post="{{ instance.get_create_path }}"
 hx-target="this"
 hx-swap="outerHTML"
 data-hit-messages
@@ -29,7 +29,7 @@ data-hit-messages
         value="{% translate 'save and add another' %}" />
 
         <button
-        hx-delete="{% url 'faculties:add' %}"
+        hx-delete="{{ instance.get_create_path }}"
         hx-target="closest form"
         hx-swap="outerHTML"
         class="btn btn-secondary"

@@ -1,72 +1,52 @@
-class RaiseExceptions:
+class HelperMixin:
     
-    def raise_exceptions_if_necessary(self):
-        for attr in self.attrs:
-            if getattr(self, attr) is None:
-                raise Exception(f'you need to set {attr}')
-
-class RaiseAddExceptions(RaiseExceptions):
-    
-    attrs: list[str] = [
-        'form_class',
-        'template_name',
-        'base_template_name',
-        'add_form_template',
-        'success_path',
-    ]
-
-class RaiseBulkDeleteExceptions(RaiseExceptions):
-    
-    attrs: list[str] = [
-        'model',
-        'hx_location_path',
-        'hx_location_target',
-    ]
-
-class RaiseDeleteExceptions(RaiseExceptions):
+    def get_model_class(self):
         
-    attrs: list[str] = [
-        'class_name',
-        'model',
-        'template_name',
-        'hx_location_path',
-        'hx_location_target',
-    ]
-
-class RaiseListExceptions(RaiseExceptions):
-    
-    def raise_exceptions_if_necessary(self):
+        if hasattr(self, 'model'):
+            return self.model
         
-        print('dasdasdsadasdasdasdsad')
+        if not hasattr(self, 'form_class'):
+            raise Exception('you need to set form_class')
         
-        if getattr(self.model, 'get_update_path') is None:
-            raise Exception(
-                f'you need to set get_update_path property in {self.model._meta.__class__}'
-            )
+        model_class = self.form_class._meta.model
+        return model_class
+    
+    def get_app_name(self):
         
-        if getattr(self.model, 'get_delete_path') is None:
-            raise Exception(
-                f'you need to set get_delete_path property in {self.model._meta.__class__}'
-            )
-        return super().raise_exceptions_if_necessary()
+        model_class = self.get_model_class()
+        app_name: str = model_class._meta.app_label
+        
+        return app_name
     
-    attrs: list[str] = [
-        'model',
-        'filter_class',
-        'select_filter_class',
-        'template_name',
-        'index_template_name',
-        'pagination_form',
-        'pagination_form_attributes',
-    ]
-
-class RaiseUpdateExceptions(RaiseExceptions):
+    def get_success_path(self):
+        
+        if hasattr(self, 'success_path'):
+            return self.success_path
+        
+        app_name = self.get_app_name()
+        return f'{app_name}:index'
     
-    attrs: list[str] = [
-        'model',
-        'form_class',
-        'template_name',
-        'base_template_name',
-        'update_form_template',
-        'success_path',
-    ]
+    def get_hx_location_path(self):
+        
+        if hasattr(self, 'hx_location_path'):
+            return self.hx_location_path
+        
+        app_name = self.get_app_name()
+        return f'{app_name}:index'
+    
+    def get_hx_location_target(self):
+        
+        if hasattr(self, 'hx_location_target'):
+            return self.hx_location_target
+        
+        app_name = self.get_app_name()
+        return f'#{app_name}-table'
+    
+    def get_index_template_name(self):
+        
+        if hasattr(self, 'index_template_name'):
+            return self.index_template_name
+        
+        app_name = self.get_app_name()
+        
+        return f'apps/{app_name}/index.html'

@@ -6,31 +6,23 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib import messages
 from django.urls import reverse
 
-from .utils import RaiseDeleteExceptions
+from . import utils
 
 
-class DeleteMixin(RaiseDeleteExceptions):
-    
-    class_name = None
-    model = None
-    template_name = None
-    hx_location_path = None
-    hx_location_target = None
+class DeleteMixin(utils.HelperMixin):
     
     def get(self, request, *args, **kwargs):
         
-        self.raise_exceptions_if_necessary()
-            
-        instance = get_object_or_404(self.model, slug=kwargs.get('slug'))
+        if self.model is None:
+            raise Exception('you need to set a model')
         
-        if not hasattr(instance, 'get_delete_path'):
-            raise NotImplementedError('you need to implement get_delete_path property in your model.')
+        instance = get_object_or_404(self.model, slug=kwargs.get('slug'))
         
         instance_name = getattr(instance, 'name')
         
         message = (
-            _('are you sure you want to delete {} {} ?')
-            .format(self.class_name, instance_name)
+            _('are you sure you want to delete {} ?')
+            .format(instance_name)
         )
         
         context = {
@@ -40,7 +32,10 @@ class DeleteMixin(RaiseDeleteExceptions):
             'page': request.GET.get('page'),
         }
         
-        return render(request, self.template_name, context)
+        if self.modal_template_name is None:
+            raise Exception('you need to set modal_template_name')
+        
+        return render(request, self.modal_template_name, context)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         
@@ -49,24 +44,21 @@ class DeleteMixin(RaiseDeleteExceptions):
         instance = get_object_or_404(self.model, slug=slug)
         response = HttpResponse('')
         
-        if False:
-            # needs implementation
-            messages.info(
-                request, 
-                _('you can\'t delete this {} ({}) because there is one or more models related to it.').format(self.class_name, instance.name),
-                'bg-red-600'
-            )
-            response['Hx-Retarget'] = '#no-content'
-            response['Hx-Reswap'] = 'innerHTML'
-            return response
+        if not hasattr(self, 'cannot_delete'):
+            raise NotImplementedError('you need to implement cannot_delete method on your view')
+        
+        cannot_delete_response = self.cannot_delete(request, *args, **kwargs)
+        
+        if cannot_delete_response is not None:
+            return cannot_delete_response
         
         instance.delete()
         messages.info(request, _('done'), 'bg-green-600')
         
         hx_location = {
-            'path': reverse(self.hx_location_path),
+            'path': reverse(self.get_hx_location_path()),
             'values': {**request.POST},
-            'target': self.hx_location_target,
+            'target': self.get_hx_location_target(),
             'swap': 'outerHTML',
         }
         response['Hx-Location'] = json.dumps(hx_location)
