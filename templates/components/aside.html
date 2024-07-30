@@ -20,12 +20,14 @@
     class="p-2" 
     x-data="{
     urls: [
+        {% if perms.faculties.view_faculty %}
         {
           text: '{% translate 'faculties' %}', 
           url: '{% url 'faculties:index' %}', 
           isActive: true,
           iconClass: 'bx bx-buildings',
         },
+        {% endif %}
         {
           text: '{% translate 'cash' %}', 
           url: '{% url 'base:index' %}', 

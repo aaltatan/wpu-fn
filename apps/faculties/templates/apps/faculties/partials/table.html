@@ -18,16 +18,10 @@
   <c-slot name="table">
 
     <form 
-    hx-post="{% url 'faculties:bulk' %}" 
+    hx-get="{% url 'faculties:bulk' %}" 
     hx-swap="innerHTML"
     hx-include="[data-include]"
-    x-data="{ selectedRows: [] }"
-    data-hit-messages>
-
-      <script type="module">
-        import { addHitMessagesEventListeners } from '../static/js/main.js';
-        addHitMessagesEventListeners();
-      </script>
+    x-data="{ selectedRows: [] }">
 
       <c-table>
         
@@ -37,6 +31,7 @@
 
             <input type="hidden" id="page" name="page" value="{{ page_obj.number }}" />
             
+            {% if perms.faculties.delete_faculty %}
             <th>
               <input 
               @change="
@@ -58,11 +53,17 @@
               class="accent-orange-600" 
               type="checkbox">
             </th>
+            {% endif %}
+
             <th>{% translate 'name' %}</th>
+
+            {% if perms.faculties.delete_faculty or perms.faculties.update_faculty %}
             <th>{% translate 'actions' %}</th>
+            {% endif %}
 
           </tr>
 
+          {% if perms.faculties.delete_faculty %}
           <tr 
           x-cloak 
           x-transition.duration.300 
@@ -75,12 +76,14 @@
                 type="submit" 
                 role="button" 
                 class="underline hover:font-semibold"
-                name="bulk_delete" 
+                name="bulk_delete"
+                @click="modalOpen = true"
                 value="{% translate 'delete'|title %}" 
                 title="{% translate 'delete'|title %}" />
               </p>
             </th>
           </tr>
+          {% endif %}
 
         </c-slot>
 
@@ -88,10 +91,20 @@
 
           {% for form in formset.forms %}
           <tr class="fade-animation">
-            <td id="check-{{ form.instance.pk }}">{{ form }}</td>
+
+            {% if perms.faculties.delete_faculty %}
+              <td id="check-{{ form.instance.pk }}">{{ form }}</td>
+            {% endif %}
+
             <td>{{ form.instance.name }}</td>
+
             <td>
+
+              {% if perms.faculties.delete_faculty or perms.faculties.update_faculty %}
+
               <c-context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
+
+                {% if perms.faculties.delete_faculty %}
                 <c-context-item
                   hx-get="{{ form.instance.get_delete_path }}"
                   hx-target="#modal"
@@ -100,13 +113,22 @@
                   @click="modalOpen = true"
                   >{% translate 'delete' %}</c-context-item
                 >
+                {% endif %}
+
+                {% if perms.faculties.update_faculty %}
                 <c-context-item>
                   <a class="block" href="{{ form.instance.get_update_path }}">
                     {% translate 'update' %}
                   </a>
                 </c-context-item>
+                {% endif %}
+
               </c-context>
+
+              {% endif %}
+
             </td>
+
           </tr>
           {% empty %}
           <tr>
@@ -134,12 +156,14 @@
         hx-post="{% url 'faculties:index' %}"
         hx-include="#faculty-filter-form"
       ></c-excel-export-btn>
+      {% if perms.faculties.add_faculty %}
       <a
         role="button"
         title="{% translate 'add new record'|title %}"
         class="bx bx-plus btn-icon"
         href="{% url 'faculties:create' %}"
       ></a>
+      {% endif %}
       {{ pagination_form }}
     </c-pagination>
   </c-slot>

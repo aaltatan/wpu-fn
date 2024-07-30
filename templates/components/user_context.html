@@ -33,7 +33,10 @@ role="button"
         </div>
 
         <c-context-item>
-            {% translate 'logout' %}
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input class="block w-full text-center" type="submit" role="button" title="{% translate 'logout'|title %}" value="{% translate 'logout'|title %}">
+            </form>
         </c-context-item>
 
     </ul>
