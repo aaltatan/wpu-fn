@@ -3,52 +3,52 @@
 {% for form in formset.forms %}
     <c-table.tr id="instance-{{ form.instance.pk }}">
 
-    {% if perms.faculties.delete_faculty %}
-    <c-table.td id="check-{{ form.instance.pk }}">
-        {{ form }}
-    </c-table.td>
-    {% endif %}
-
-    <c-table.td>{{ form.instance.name }}</c-table.td>
-
-    <c-table.td>
-
-        {% if perms.faculties.delete_faculty or perms.faculties.change_faculty %}
-
-        <c-context.context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
-
         {% if perms.faculties.delete_faculty %}
-        <c-context.btn
-            hx-get="{{ form.instance.get_delete_path }}"
-            hx-vals="js:{page: '{{ page_obj.number }}'}"
-            hx-target="#modal"
-            hx-swap="innerHTML"
-            @click="modalOpen = true">
-            {% translate 'delete' %}
-        </c-context.btn>
+        <c-table.td id="check-{{ form.instance.pk }}">
+            {{ form }}
+        </c-table.td>
         {% endif %}
 
-        {% if perms.faculties.change_faculty %}
-        <c-context.btn 
-        href="{{ form.instance.get_update_path }}"
-        datatype="href">
-            {% translate 'update' %}
-        </c-context.btn>
-        {% endif %}
+        <c-table.td>{{ form.instance.name }}</c-table.td>
 
-        </c-context.context>
+        <c-table.td>
 
-        {% endif %}
+            {% if perms.faculties.delete_faculty or perms.faculties.change_faculty %}
 
-    </c-table.td>
+            <c-context.context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
+
+            {% if perms.faculties.delete_faculty %}
+            <c-context.btn
+                hx-get="{{ form.instance.get_delete_path }}"
+                hx-vals="js:{page: '{{ page_obj.number }}'}"
+                hx-target="#modal"
+                hx-swap="innerHTML"
+                @click="modalOpen = true">
+                {% translate 'delete' %}
+            </c-context.btn>
+            {% endif %}
+
+            {% if perms.faculties.change_faculty %}
+            <c-context.btn 
+            href="{{ form.instance.get_update_path }}"
+            datatype="href">
+                {% translate 'update' %}
+            </c-context.btn>
+            {% endif %}
+
+            </c-context.context>
+
+            {% endif %}
+
+        </c-table.td>
 
     </c-table.tr>
 {% empty %}
 
     <tr>
-    <c-table.td colspan="3" class="text-left font-semibold tracking-tight capitalize">
-        {% translate 'no results' %}
-    </c-table.td>
+        <c-table.td colspan="3" class="text-left font-semibold tracking-tight capitalize">
+            {% translate 'no results' %}
+        </c-table.td>
     </tr>
 
 {% endfor %}

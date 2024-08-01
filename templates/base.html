@@ -16,34 +16,41 @@
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
     <script type="module" src="{% static 'js/main.js' %}" defer></script>
 
-    <style>
-      [x-cloak] {
-        display: none;
-      }
-    </style>
-
     {% block styles %}{% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
 
   </head>
 
-  <body hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'>
-
-    <div 
-      id="app"
-      x-data="{
-        asideOpen: false, 
-        modalOpen: true,
-        breadCrumbs: [
-            {
-              text: '{% translate 'home' %}', 
-              href: '{% url 'base:index' %}'
-            },
-        ],
-      }" 
-      class="realtive"
-    >
+  <body 
+    hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'
+    x-init="
+    urls.map(el => {
+      return location.pathname.startsWith(el.url) 
+                ? el.isActive = true 
+                : el.isActive = false;
+    });
+    "
+    x-data="{
+      asideOpen: false, 
+      modalOpen: true,
+      breadCrumbs: [
+          {
+            text: '{% translate 'home' %}', 
+            href: '{% url 'base:index' %}'
+          },
+      ],
+      urls: [
+        {% if perms.faculties.view_faculty %}
+          {
+            text: '{% translate 'faculties' %}', 
+            url: '{% url 'faculties:index' %}', 
+            isActive: false,
+          },
+        {% endif %}
+      ]
+    }">
+    <div class="realtive">
 
       <span class="hidden" id="no-content"></span>
       <c-layout.messages></c-layout.messages>

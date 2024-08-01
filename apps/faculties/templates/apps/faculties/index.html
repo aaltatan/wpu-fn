@@ -21,7 +21,8 @@
             text: '{% translate 'faculties' %}', 
             href: '{% url 'faculties:index' %}'
         }
-    )"
+    );
+    "
     ></template>
 
     <h1 class="text-4xl font-semibold tracking-tighter capitalize my-4">
@@ -32,7 +33,7 @@
 
     <script type="module">
         import { addHitMessagesEventListeners } from '../static/js/main.js';
-        addHitMessagesEventListeners()
+        addHitMessagesEventListeners();
     </script>
 
 {% endblock %}

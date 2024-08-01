@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+[x-cloak] {
+    display: none;
+}
+
 .htmx-request {
     @apply !block;
 }

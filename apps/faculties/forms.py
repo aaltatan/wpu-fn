@@ -41,5 +41,6 @@ class FacultyForm(forms.ModelForm):
             'name': forms.TextInput({
                 'placeholder': _('faculty name').capitalize(),
                 'autofocus': 'true',
+                'autocomplete': 'off',
             })
         }

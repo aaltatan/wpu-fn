@@ -18,36 +18,24 @@
         </h1>
       </a>
     </div>
-    <ul 
-    class="p-2" 
-    x-data="{
-    urls: [
-        {% if perms.faculties.view_faculty %}
-        {
-          text: '{% translate 'faculties' %}', 
-          url: '{% url 'faculties:index' %}', 
-          isActive: true,
-        },
-        {% endif %}
-        {
-          text: '{% translate 'cash' %}', 
-          url: '{% url 'base:index' %}', 
-          isActive: false,
-        },
-      ]
-    }"
-    >
+
+    <ul class="p-2">
+
       <template x-for="url in urls">
+
         <li class="my-2">
           <a 
             :href="url.url"
-            :class="url.isActive && 'bg-slate-900'"
-            class="flex items-center gap-2 p-4 rounded-lg hover:bg-slate-950  tracking-tight duration-150"
+            :class="url.isActive && 'bg-slate-950 hover:bg-black text-orange-500 font-semibold tracking-tighter'"
+            class="flex items-center gap-2 p-4 rounded-lg hover:bg-slate-900  tracking-tight duration-150 shadow-inner"
           >
-            <span x-text="url.text" class="capitalize"></span>
+            <span x-text="url.text" class="capitalize text-lg"></span>
           </a>
         </li>
+
       </template>
+
     </ul>
+
   </aside>
 </div>
