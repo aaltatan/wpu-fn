@@ -9,18 +9,19 @@
     <ul>
 
       <li>
-        <i
+        <c-btns.icon
           role="button"
           @click="asideOpen = true"
-          class="bx bx-menu btn-icon"
-        ></i>
+        >
+          <c-icons.bars ratio="1rem"></c-icons.bars>
+        </c-btns.icon>
       </li>
       
     </ul>
 
-    <c-breadcrumb></c-breadcrumb>
+    <c-layout.breadcrumb></c-layout.breadcrumb>
 
-    <c-user-context></c-user-context>
+    <c-context.user></c-context.user>
 
   </nav>
 

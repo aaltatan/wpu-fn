@@ -4,33 +4,37 @@
 
     <div class="flex items-center justify-between">
       {% if page_obj.has_previous %}
-      <i
-        role="button"
+      <c-btns.icon
         hx-get="{{ url }}?page=1"
         hx-target="{{ target }}"
         hx-include="{{ include }}"
-        hx-on::after-request="resetTableIdx()"
         hx-swap="outerHTML"
+        hx-indicator="#table-spinner"
         title="{% translate 'first page'|title %}"
-        class="bx bx-chevrons-left btn-icon"
-      ></i>
+      >
+        <c-icons.arrow-double-left ratio="1rem"></c-icons.arrow-double-left>
+      </c-btns.icon>
       {% else %}
-      <i class="bx bx-chevrons-left text-xl p-1 opacity-45"></i>
+      <span class="text-xl p-1 opacity-45">
+        <c-icons.arrow-double-left ratio="1rem"></c-icons.arrow-double-left>
+      </span>
       {% endif %} 
       
       {% if page_obj.has_previous %}
-      <i
-        role="button"
+      <c-btns.icon
         hx-get="{{ url }}?page={{ page_obj.previous_page_number }}"
         hx-target="{{ target }}"
         hx-include="{{ include }}"
-        hx-on::after-request="resetTableIdx()"
         hx-swap="outerHTML"
+        hx-indicator="#table-spinner"
         title="{% translate 'previous page'|title %}"
-        class="bx bx-chevron-left btn-icon"
-      ></i>
+      >
+        <c-icons.arrow-left ratio="1rem"></c-icons.arrow-left>
+      </c-btns.icon>
       {% else %}
-      <i class="bx bx-chevron-left text-xl p-1 opacity-45"></i>
+      <span class="text-xl p-1 opacity-45">
+        <c-icons.arrow-left ratio="1rem"></c-icons.arrow-left>
+      </span>
       {% endif %} 
 
       <!--  -->
@@ -42,33 +46,36 @@
       <!--  -->
       
       {% if page_obj.has_next %}
-      <i
-        role="button"
+      <c-btns.icon
         hx-get="{{ url }}?page={{ page_obj.next_page_number }}"
         hx-target="{{ target }}"
         hx-include="{{ include }}"
-        hx-on::after-request="resetTableIdx()"
         hx-swap="outerHTML"
+        hx-indicator="#table-spinner"
         title="{% translate 'next page'|title %}"
-        class="bx bx-chevron-right btn-icon"
-      ></i>
+      >
+        <c-icons.arrow-right ratio="1rem"></c-icons.arrow-right>
+      </c-btns.icon>
       {% else %}
-      <i class="bx bx-chevron-right text-xl p-1 opacity-45"></i>
+      <span class="text-xl p-1 opacity-45">
+        <c-icons.arrow-right ratio="1rem"></c-icons.arrow-right>
+      </span>
       {% endif %} 
-      
       {% if page_obj.has_next %}
-      <i
-        role="button"
+      <c-btns.icon
         hx-get="{{ url }}?page={{ page_obj.paginator.num_pages }}"
         hx-target="{{ target }}"
         hx-include="{{ include }}"
-        hx-on::after-request="resetTableIdx()"
         hx-swap="outerHTML"
+        hx-indicator="#table-spinner"
         title="{% translate 'last page'|title %}"
-        class="bx bx-chevrons-right btn-icon"
-      ></i>
+      >
+        <c-icons.arrow-double-right ratio="1rem"></c-icons.arrow-double-right>
+      </c-btns.icon>
       {% else %}
-      <i class="bx bx-chevrons-right text-xl p-1 opacity-45"></i>
+      <span class="p-1 opacity-45">
+        <c-icons.arrow-double-right ratio="1rem"></c-icons.arrow-double-right>
+      </span>
       {% endif %}
     </div>
 

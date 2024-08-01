@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<c-modal-container>
+<c-modal.container>
     <form 
     hx-post="{% url 'faculties:bulk' %}" 
     hx-swap="innerHTML"
@@ -8,7 +8,7 @@
     @submit="modalOpen = false"
     data-hit-messages
     >
-        <c-modal>
+        <c-modal.modal>
 
             <c-slot name="header">
                 <span class="capitalize">{% translate 'confirm' %}</span>
@@ -20,12 +20,12 @@
             </c-slot>
 
             <c-slot name="footer">
-                <input type="submit" @click="modalOpen = false" class="btn btn-red" name="bulk_delete" value="{% translate 'confirm' %}">
+                <c-btns.danger datatype="input" type="submit" @click="modalOpen = false" name="bulk_delete" value="{% translate 'confirm' %}"></c-btns.danger>
             </c-slot>
 
-        </c-modal>
+        </c-modal.modal>
     </form>
-</c-modal-container>
+</c-modal.container>
 
 <script type="module">
     import { addHitMessagesEventListeners } from '../static/js/main.js';

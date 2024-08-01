@@ -1,18 +1,10 @@
 {% load i18n %}
+{% load widget_tweaks %}
 
-<c-table-container id="faculties-table">
+<c-table.container id="faculties-table">
 
   <c-slot name="filters">
-    <form
-      id="faculty-filter-form"
-      hx-get="{% url 'faculties:index' %}"
-      hx-target="#container"
-      hx-select="#container"
-      hx-swap="outerHTML"
-      data-include
-    >
-      {{ filter }}
-    </form>
+    {% include 'apps/faculties/partials/table/filters.html' %}
   </c-slot>
 
   <c-slot name="table">
@@ -23,149 +15,24 @@
     hx-include="[data-include]"
     x-data="{ selectedRows: [] }">
 
-      <c-table>
-        
+      <c-table.table>
+
         <c-slot name="headers">
-
-          <tr>
-
-            <input type="hidden" id="page" name="page" value="{{ page_obj.number }}" />
-            
-            {% if perms.faculties.delete_faculty %}
-            <th>
-              <input 
-              @change="
-              let isChecked = $event.target.checked;
-              let rowsChecks = document
-                              .querySelectorAll(
-                                `td[id^='check'] input[type='checkbox']`
-                              );
-              rowsChecks.forEach(el => {
-                el.checked = isChecked;
-                let tdId = el.parentElement.parentElement.getAttribute('id');
-                if (isChecked) {
-                  selectedRows.push(tdId);
-                } else {
-                  selectedRows = [];
-                }
-              });
-              "
-              class="accent-orange-600" 
-              type="checkbox">
-            </th>
-            {% endif %}
-
-            <th>{% translate 'name' %}</th>
-
-            {% if perms.faculties.delete_faculty or perms.faculties.update_faculty %}
-            <th>{% translate 'actions' %}</th>
-            {% endif %}
-
-          </tr>
-
-          {% if perms.faculties.delete_faculty %}
-          <tr 
-          x-cloak 
-          x-transition.duration.300 
-          x-show="selectedRows.length">
-            <th colspan="3">
-              <p class="font-light text-left p-2 text-sm">
-                <span class="font-semibold" x-text="selectedRows.length"></span>
-                <span>{% translate 'selected objects' %}</span>
-                <input 
-                type="submit" 
-                role="button" 
-                class="underline hover:font-semibold"
-                name="bulk_delete"
-                @click="modalOpen = true"
-                value="{% translate 'delete'|title %}" 
-                title="{% translate 'delete'|title %}" />
-              </p>
-            </th>
-          </tr>
-          {% endif %}
-
+          {% include 'apps/faculties/partials/table/headers.html' %}
         </c-slot>
 
         <c-slot name="tbody">
-
-          {% for form in formset.forms %}
-          <tr class="fade-animation">
-
-            {% if perms.faculties.delete_faculty %}
-              <td id="check-{{ form.instance.pk }}">{{ form }}</td>
-            {% endif %}
-
-            <td>{{ form.instance.name }}</td>
-
-            <td>
-
-              {% if perms.faculties.delete_faculty or perms.faculties.update_faculty %}
-
-              <c-context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
-
-                {% if perms.faculties.delete_faculty %}
-                <c-context-item
-                  hx-get="{{ form.instance.get_delete_path }}"
-                  hx-target="#modal"
-                  hx-swap="innerHTML"
-                  hx-include="#page"
-                  @click="modalOpen = true"
-                  >{% translate 'delete' %}</c-context-item
-                >
-                {% endif %}
-
-                {% if perms.faculties.update_faculty %}
-                <c-context-item>
-                  <a class="block" href="{{ form.instance.get_update_path }}">
-                    {% translate 'update' %}
-                  </a>
-                </c-context-item>
-                {% endif %}
-
-              </c-context>
-
-              {% endif %}
-
-            </td>
-
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="3" class="text-left font-semibold tracking-tight capitalize">
-              {% translate 'no results' %}
-            </td>
-          </tr>
-          {% endfor %}
-
+          {% include 'apps/faculties/partials/table/body.html' %}
         </c-slot>
 
-      </c-table>
+      </c-table.table>
 
     </form>
 
   </c-slot>
 
   <c-slot name="pagination">
-    <c-pagination
-      url="{% url 'faculties:index' %}"
-      target="#faculties-table"
-      include="[data-include]"
-    >
-      <c-excel-export-btn
-        hx-post="{% url 'faculties:index' %}"
-        hx-include="#faculty-filter-form"
-      ></c-excel-export-btn>
-      {% if perms.faculties.add_faculty %}
-      <a
-        role="button"
-        title="{% translate 'add new record'|title %}"
-        class="bx bx-plus btn-icon"
-        href="{% url 'faculties:create' %}"
-      ></a>
-      {% endif %}
-      {{ pagination_form }}
-    </c-pagination>
+    {% include 'apps/faculties/partials/table/pagination.html' %}
   </c-slot>
 
-</c-table-container>
+</c-table.container>

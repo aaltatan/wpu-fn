@@ -6,12 +6,14 @@
 
 {% block body %}
 
-    <c-spinner
+    <span
     hx-get="{% url 'faculties:index' %}"
     hx-trigger="load"
     hx-target="#faculties-table"
     hx-swap="outerHTML"
-    ></c-spinner>
+    hx-indicator="#table-spinner"
+    class="hidden"
+    ></span>
 
     <template 
     x-init="breadCrumbs.push(

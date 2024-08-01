@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<c-table.pagination
+  url="{% url 'faculties:index' %}"
+  target="#faculties-table"
+  include="[data-include]"
+>
+
+  <c-btns.excel 
+  filter_form_id="faculty-filter-form"
+  url="{% url 'faculties:index' %}"></c-btns.excel>
+
+  {% if perms.faculties.add_faculty %}
+  <c-btns.icon
+      datatype="href"
+      title="{% translate 'add new record'|title %}"
+      href="{% url 'faculties:create' %}"
+  >
+      <c-icons.plus ratio="1rem"></c-icons.plus>
+  </c-btns.icon>
+  {% endif %} 
+  
+  {{ pagination_form }}
+
+</c-table.pagination>

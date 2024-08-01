@@ -13,10 +13,11 @@ from . import models
 attrs: dict[str, Any] = {
     'placeholder': _('search by the name').capitalize(),
     'type': 'search',
-    'class': 'input',
+    'class': 'bg-slate-50 outline-none rounded-lg focus:ring-2 focus:ring-orange-500 duration-150 px-4 py-2',
     'hx-get': reverse_lazy('faculties:index'),
     'hx-target': "#container",
     'hx-select': "#container",
+    'hx-indicator': "#table-spinner",
     'hx-trigger': 'input changed delay:500ms, search',
     'hx-swap': "outerHTML",
     'hx-include': "[data-include]",

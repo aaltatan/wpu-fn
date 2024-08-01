@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from . import models
 
+
 SCRIPT = """
     let targetId = $event.target.getAttribute('id');
     let criteria = selectedRows.filter(el => el === targetId).length;
@@ -21,7 +22,8 @@ class SelectFacultyForm(forms.ModelForm):
         label='',
         widget=forms.CheckboxInput(
             attrs={
-                'x-on:change': SCRIPT
+                'x-on:change': SCRIPT,
+                'class': 'accent-orange-500',
             }
         )
     )
@@ -29,7 +31,6 @@ class SelectFacultyForm(forms.ModelForm):
     class Meta:
         model = models.Faculty
         fields = []
-
 
 class FacultyForm(forms.ModelForm):
     
@@ -39,7 +40,6 @@ class FacultyForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput({
                 'placeholder': _('faculty name').capitalize(),
-                'class': 'input w-full',
                 'autofocus': 'true',
             })
         }

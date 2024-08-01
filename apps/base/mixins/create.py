@@ -33,7 +33,6 @@ class CreateMixin(utils.HelperMixin):
         context = {'form': form}
         
         if form.is_valid():
-            
             form.save()
             messages.info(request, _('done'), 'bg-green-600')
             

@@ -1,0 +1,48 @@
+{% load i18n %}
+
+<div 
+x-data='{open: false}' 
+@click="open = true"
+:class="open && 'bg-slate-50'"
+class="relative select-none rounded-lg p-2 hover:bg-slate-50 duration-150" 
+role="button"
+>
+
+    <div 
+    class="flex items-center justify-center gap-1">
+        <span class="capitalize text-sm font-semibold">
+            {{ request.user.username }}
+        </span>
+        <span :class="open && 'rotate-180'" class='duration-150'>
+            <c-icons.arrow-down ratio="1rem"></c-icons.arrow-down>
+        </span>
+    </div>
+
+    <ul 
+    role="menu"
+    x-show="open"
+    @click.outside="open = false"
+    x-transition.scale.0.origin.top.duration.150ms
+    x-cloak
+    class="divide-y divide-slate-100 rounded-lg overflow-hidden py-1 absolute right-0 top-[calc(100%+.5rem)] min-w-[100px] bg-white border border-slate-100 shadow-md z-10 text-center">
+
+        <div class="flex items-center justify-center gap-2 my-4 mx-2">
+            <c-layout.avatar textsize="text-base"></c-layout.avatar>
+            <p class="text-nowrap font-semibold tracking-tighter">
+                {{ request.user.first_name|title }}
+                {{ request.user.last_name|title }}
+            </p>
+        </div>
+
+        <c-context.btn datatype="href" href="{% url 'password_change' %}">
+            {% translate 'change password' %}
+        </c-context.btn>
+
+        <c-context.form 
+        method="POST" 
+        action="{% url 'logout' %}" 
+        btn_title="{% translate 'logout'|title %}"></c-context.form>
+
+    </ul>
+
+</div>

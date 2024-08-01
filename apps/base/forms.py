@@ -25,6 +25,7 @@ class PaginatedByForm(forms.Form):
             'px-2 py-1 rounded-lg bg-slate-50 outline-none focus:ring-2 focus:ring-orange-500 border-none hover:bg-slate-100 duration-150'
         )
         self.fields['per_page'].widget.attrs['hx-include'] = '[data-include]'
+        self.fields['per_page'].widget.attrs['hx-indicator']= '#table-spinner'
         self.fields['per_page'].widget.attrs['data-include']= ''
         
         for k, v in attrs.items():

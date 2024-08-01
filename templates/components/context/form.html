@@ -1,0 +1,10 @@
+<li>
+    <form
+      role="button"
+      {{ attrs }}
+    >
+      {% csrf_token %}
+      <input class="w-full text-center px-2 py-1 capitalize text-sm font-semibold block hover:bg-slate-100 duration-150" type="submit" role="button" title="{{ btn_title }}" value="{{ btn_title }}">
+    </form>
+  </li>
+  

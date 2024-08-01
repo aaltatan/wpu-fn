@@ -1,4 +1,5 @@
-{% load static %} {% load i18n %}
+{% load static %} 
+{% load i18n %}
 
 <!doctype html>
 <html lang="en">
@@ -6,23 +7,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href='{% static "css/styles.css" %}' />
-    <title>{% translate 'login' %}</title>
+    <title>{% translate 'login'|title %}</title>
   </head>
   <body>
-    <div class="login">
-      <div class="login__header">
-        <h1>{% translate 'login' %}</h1>
-        <p>{% translate 'please provide us your credentials' %}</p>
+
+    <!-- {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li
+            class="{% if message.tags %} {{ message.tags }} {% endif %} text-white p-1 text-sm font-semibold text-center capitalize"
+          >
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %} -->
+
+    <form action="{% url 'login' %}" method="post">
+
+      <div 
+      class="w-[600px] mx-auto px-8 py-16">
+
+        <c-forms.form title="login" >
+
+          <c-slot name="btns">
+
+            <c-btns.primary datatype="button" type="submit">
+              {% translate 'login' %}
+            </c-btns.primary>
+
+          </c-slot>
+
+        </c-forms.login>
+
       </div>
-      <form action="{% url 'login' %}" method="post">
-        {% csrf_token %} {{ form }}
-        <button
-          type="submit"
-          class="btn !bg-orange-500 hover:!bg-orange-600 text-white focus:!ring-orange-600 w-full"
-        >
-          {% translate 'login' %}
-        </button>
-      </form>
-    </div>
+      
+    </form>
+    
   </body>
 </html>

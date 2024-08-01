@@ -17,12 +17,13 @@ from apps.base.mixins.delete import DeleteMixin
 from apps.base.mixins.bulk import BulkActionsMixin
 
 
-class ListTableView(LoginRequiredMixin, 
-                    PermissionRequiredMixin, 
-                    ListMixin, 
-                    ListView):
+class ListTableView(
+    LoginRequiredMixin, PermissionRequiredMixin, ListMixin, ListView
+):
     
     permission_required = 'faculties.view_faculty'
+    
+    export_fields = ['name']
     
     model = models.Faculty
     filter_class = filters.FacultyFilterSet
@@ -37,22 +38,17 @@ class ListTableView(LoginRequiredMixin,
         'hx-target': '#faculties-table',
     }
 
-
-class BulkActionsView(LoginRequiredMixin, 
-                      PermissionRequiredMixin, 
-                      BulkActionsMixin, 
-                      View):
+class BulkActionsView(
+    LoginRequiredMixin, PermissionRequiredMixin, BulkActionsMixin, View
+):
     
-    permission_required = [
-        'faculties.delete_faculty'
-    ]
+    permission_required = ['faculties.delete_faculty']
     model = models.Faculty
 
 
-class CreateView(LoginRequiredMixin, 
-                 PermissionRequiredMixin, 
-                 CreateMixin, 
-                 View):
+class CreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, CreateMixin, View
+):
     
     permission_required = 'faculties.add_faculty'
     form_class = forms.FacultyForm
@@ -60,23 +56,23 @@ class CreateView(LoginRequiredMixin,
     form_template_name = 'partials/create-form.html'
 
 
-class UpdateView(LoginRequiredMixin, 
-                 PermissionRequiredMixin, 
-                 UpdateMixin, 
-                 View):
+class UpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, UpdateMixin, View
+):
     
-    permission_required = 'faculties.update_faculty'
+    permission_required = 'faculties.change_faculty'
     form_class = forms.FacultyForm
     template_name = 'apps/faculties/update.html'
     form_template_name = 'partials/update-form.html'
 
 
-class DeleteView(LoginRequiredMixin, 
-                 PermissionRequiredMixin, 
-                 DeleteMixin, 
-                 CannotDeleteFacultyMixin, 
-                 View):
-
+class DeleteView(
+    LoginRequiredMixin, 
+    PermissionRequiredMixin, 
+    DeleteMixin, 
+    CannotDeleteFacultyMixin, 
+    View
+):
 
     permission_required = 'faculties.delete_faculty'
     model = models.Faculty

@@ -2,12 +2,17 @@ from typing import Any
 
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, Http404
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.forms import modelformset_factory
 
-class ListMixin:
+from excel_response import ExcelResponse
+
+from .utils import HelperMixin
+
+
+class ListMixin(HelperMixin):
     
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         
@@ -17,12 +22,22 @@ class ListMixin:
         for property in ['get_delete_path', 'get_update_path']:
             if not hasattr(self.model, property):
                 model_name = self.model._meta.model_name.title()
-                raise NotImplementedError(f'you implement get_delete_path property on {model_name} model')
+                raise NotImplementedError(f'you implement {property} property on {model_name} model')
         
         if not request.htmx:
             return render(request, self.index_template_name, {})
         
         return super().get(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        
+        file_name = self.get_app_name()
+        qs = self.get_queryset().values(*self.export_fields)
+        
+        if not qs.count():
+            raise Http404()
+        
+        return ExcelResponse(qs, file_name)
     
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         

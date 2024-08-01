@@ -1,0 +1,81 @@
+{% load widget_tweaks %}
+{% load i18n %}
+
+<div class="border border-slate-100 rounded-lg p-6">
+
+    {% if title %}
+    <h1 class="text-4xl tracking-tighter font-semibold my-6 text-center first-letter:capitalize">
+        {{ title }}
+    </h1>
+    {% endif %}
+
+    <div>
+
+        <ul>
+           {% for error in form.non_field_errors %}
+            <li class="bg-red-100 font-semibold text-sm p-4 rounded-lg text-red-600">
+                {{ error }}
+            </li>
+           {% endfor %}
+        </ul>
+
+        {% for field in form %}
+        <div class="my-4" x-data="{openHelp: false}">
+
+            <div class="relative rounded-lg overflow-hidden
+                        flex items-center ring-2 duration-150 
+                        bg-orange-400 ring-orange-400 text-white
+                        [&:has([aria-invalid])]:ring-[red] 
+                        [&:has([aria-invalid])]:bg-[red]
+                        ">
+                
+                <label 
+                class="px-4 font-semibold tracking-tighter flex-shrink text-center text-xs md:text-sm text-nowrap" 
+                for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+
+                {% if field.help_text %}
+                <div
+                class="absolute text-black right-4 top-1/2 -translate-y-1/2"
+                title="{% translate 'help'|title %}"
+                role="button">
+                    <c-btns.icon @click="openHelp = true">
+                        <c-icons.question ratio="1rem"></c-icons.question>
+                    </c-btns.icon>
+                </div>
+                {% endif %}
+
+                <span class="rounded-r-lg"></span>
+
+                {% render_field field|add_class:'duration-150 block w-full px-4 py-2 outline-none text-black aria-[invalid]:text-red-600' %}
+
+            </div>
+
+            <div x-cloak x-transition.duration.150 @click.outside="openHelp = false" x-show="openHelp" class="my-2 pl-4 text-slate-600 text-sm first-letter:capitalize">
+                {{ field.help_text }}
+            </div>
+
+            {% if field.errors %}
+            <ul class="text-[red] text-sm tracking-tight">
+                {% for error in field.errors %}
+                    <li 
+                    class="first-letter:capitalize pl-2 font-semibold my-2">
+                        {{ error }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+        {% csrf_token %} 
+
+    </div>
+
+    <div class="flex items-center justify-end gap-1 my-6">
+        {{ btns }}
+    </div>
+
+</div>

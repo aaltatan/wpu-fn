@@ -5,6 +5,8 @@ django-cotton==0.9.23
 django-htmx
 django-querycount
 django-excel-response
+django-widget-tweaks
+django-excel-response
 whitenoise
 blacknoise
 uvicorn

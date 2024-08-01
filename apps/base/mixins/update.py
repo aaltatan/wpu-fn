@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 
 from . import utils
 
+
 class UpdateMixin(utils.HelperMixin):
     
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
@@ -39,7 +40,7 @@ class UpdateMixin(utils.HelperMixin):
         instance = get_object_or_404(self.get_model_class(), slug=slug)
         
         form = self.form_class(data=request.POST, instance=instance)
-        context = {'form': form}
+        context = {'form': form, 'instance': instance}
         
         if form.is_valid():
             

@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<span
+    class="underline hover:font-semibold"
+    role="button"
+    @click="
+    const selector = `td[id^='check'] input[type='checkbox']`
+    document
+        .querySelectorAll(selector)
+        .forEach(el => el.checked = false);
+    selectedRows = [];
+    document.getElementById('check-all').checked = false;
+    "
+>{% translate 'unselect all'|title %}</span>
