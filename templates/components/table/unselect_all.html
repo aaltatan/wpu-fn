@@ -1,14 +1,37 @@
 {% load i18n %}
 
-<span
-    class="underline hover:font-semibold"
-    role="button"
-    @click="
-    const selector = `td[id^='check'] input[type='checkbox']`
-    document
-        .querySelectorAll(selector)
-        .forEach(el => el.checked = false);
-    selectedRows = [];
-    document.getElementById('check-all').checked = false;
-    "
->{% translate 'unselect all'|title %}</span>
+<div x-transition.duration.300 x-cloak x-show="selectedRows.length">
+  <p class="font-light text-left p-2 text-sm">
+    <span class="font-semibold" x-text="selectedRows.length"></span>
+
+    <span>{% translate 'selected objects' %}</span>
+
+    <!-- start unselect all -->
+    <span
+      class="font-semibold text-orange-500 hover:underline mx-1"
+      role="button"
+      @click="
+          const selector = `[id^='check'] input[type='checkbox']`
+          document
+              .querySelectorAll(selector)
+              .forEach(el => el.checked = false);
+          selectedRows = [];
+          document.getElementById('check-all').checked = false;
+          "
+      >{% translate 'unselect all'|title %}</span
+    >
+    <!-- end unselect all -->
+
+    {% if can_delete %}
+    <input
+      type="submit"
+      role="button"
+      class="font-semibold text-orange-500 hover:underline mx-1"
+      name="bulk_delete"
+      @click="modalOpen = true"
+      value="{% translate 'delete'|title %}"
+      title="{% translate 'delete'|title %}"
+    />
+    {% endif %}
+  </p>
+</div>

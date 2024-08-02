@@ -8,27 +8,7 @@
   </c-slot>
 
   <c-slot name="table">
-
-    <form 
-    hx-get="{% url 'faculties:bulk' %}" 
-    hx-swap="innerHTML"
-    hx-include="[data-include]"
-    x-data="{ selectedRows: [] }">
-
-      <c-table.table>
-
-        <c-slot name="headers">
-          {% include 'apps/faculties/partials/table/headers.html' %}
-        </c-slot>
-
-        <c-slot name="tbody">
-          {% include 'apps/faculties/partials/table/body.html' %}
-        </c-slot>
-
-      </c-table.table>
-
-    </form>
-
+    {% include 'apps/faculties/partials/table/table.html' %}
   </c-slot>
 
   <c-slot name="pagination">

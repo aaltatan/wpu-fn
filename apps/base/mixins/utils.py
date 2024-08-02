@@ -1,4 +1,9 @@
 class HelperMixin:
+
+    def get_default_ordering(self):
+        
+        model = self.get_model_class()
+        return model._meta.ordering
     
     def get_model_class(self):
         

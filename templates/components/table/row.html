@@ -1,0 +1,14 @@
+<div {{ attrs }} class="
+relative grid grid-cols-{{ cols }} items-center px-16 duration-150
+{% if header %}
+font-semibold capitalize border-b border-slate-100 py-4
+{% else %}
+py-2
+even:bg-slate-50 even:bg-opacity-50 
+[&:has(input[type='checkbox']:checked)]:bg-orange-100
+[&:has(input[type='checkbox']:checked)]:border-orange-200
+[&:has(input[type='checkbox']:checked)]:hover:bg-orange-200
+hover:bg-slate-50
+{% endif %}" >
+    {{ slot }}
+</div>

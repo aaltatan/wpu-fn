@@ -1,13 +1,3 @@
-{% load i18n %}
-
-<table class="relative table-auto w-full border-collapse">
-
-    <thead class="border-b-2 bg-border-200 capitalize">
-        {{ headers }}
-    </thead>
-
-    <tbody class="divide-y divide-slate-100">
-        {{ tbody }}
-    </tbody>
-
-</table>
+<div class="relative">
+    {{ slot }}
+</div>

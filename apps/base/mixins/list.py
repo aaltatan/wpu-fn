@@ -76,12 +76,22 @@ class ListMixin(HelperMixin):
         page = self.get_current_page()
         
         return paginator.get_page(page).object_list
-        
+
     def get_queryset(self):
+        
+        default_ordering = self.get_default_ordering()
+        request_ordering = self.request.GET.get('order')
+        
+        order = default_ordering
+        
+        if request_ordering is not None:
+            order = [request_ordering]
+        
         qs: QuerySet = (
             self
             .filter_class(self.request.GET or self.request.POST)
             .qs
+            .order_by(*order)
         )
         return qs
     

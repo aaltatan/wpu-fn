@@ -1,0 +1,68 @@
+{% load i18n %}
+
+<form 
+hx-get="{% url 'faculties:bulk' %}" 
+hx-swap="innerHTML"
+hx-include="[data-include]"
+x-data="{ selectedRows: [] }">
+
+{% with perms.faculties.delete_faculty as can_delete %}
+{% with perms.faculties.update_faculty as can_update %}
+{% with 1 as columns_count %}
+
+<c-table.table>
+
+    <!-- start header -->
+    <c-table.row cols="{{ columns_count }}" header>
+
+      {% if can_delete %}
+      <c-table.check-all></c-table.check-all>
+      {% endif %}
+
+      <c-table.column-header 
+      hx-get="{% url 'faculties:index' %}"
+      hx-target="#faculties-table"
+      default_column="name"></c-table.column-header>
+
+    </c-table.row>
+
+    {% if can_delete %}
+    <c-table.unselect-all></c-table.unselect-all>
+    {% endif %}
+    <!-- end header -->
+
+    <!-- start rows -->
+    <c-table.body>
+
+        {% for form in formset.forms %}
+        <c-table.row 
+        cols="{{ columns_count }}" 
+        id="instance-{{ form.instance.pk }}">
+
+            {% if can_delete %}
+            <c-table.absolute direction="left">
+              {{ form }}
+            </c-table.absolute>
+              {% endif %}
+
+            <div>{{ form.instance.name }}</div>
+
+            <c-table.absolute direction="right">
+              {% include 'apps/faculties/partials/table/context.html' %}
+            </c-table.absolute>
+
+        </c-table.row>
+        {% empty %}
+        <c-table.empty-row></c-table.empty-row>
+
+    </c-table.body>
+    {% endfor %}
+    <!-- end rows -->
+
+</c-table.table>
+
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+</form>

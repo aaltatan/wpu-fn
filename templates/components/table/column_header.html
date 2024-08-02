@@ -1,0 +1,32 @@
+{% load i18n %}
+
+<div
+  hx-swap="outerHTML"
+  hx-include="[data-include]"
+  hx-indicator="#table-spinner"
+  hx-vals='js:{
+  order: `{% firstof request.GET.order default_column %}` === "{{ default_column }}" ? "-name" : "name" }'
+  hx-trigger="click"
+  data-include
+  class="flex items-center gap-1 cursor-pointer"
+  {{ attrs }}
+>
+
+  <input
+    data-include
+    type="hidden"
+    id="order"
+    name="order"
+    value="{% firstof request.GET.order default_column %}"
+  />
+
+  <span>{% translate default_column %}</span>
+
+  <span
+    class="duration-150"
+    :class="document.getElementById('order').value.startsWith('-') && 'rotate-180'"
+  >
+    <c-icons.arrow-down ratio="1rem"></c-icons.arrow-down>
+  </span>
+
+</div>
