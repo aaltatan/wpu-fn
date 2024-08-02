@@ -6,10 +6,6 @@ hx-swap="innerHTML"
 hx-include="[data-include]"
 x-data="{ selectedRows: [] }">
 
-{% with perms.faculties.delete_faculty as can_delete %}
-{% with perms.faculties.update_faculty as can_update %}
-{% with 1 as columns_count %}
-
 <c-table.table>
 
     <!-- start header -->
@@ -40,10 +36,8 @@ x-data="{ selectedRows: [] }">
         id="instance-{{ form.instance.pk }}">
 
             {% if can_delete %}
-            <c-table.absolute direction="left">
-              {{ form }}
-            </c-table.absolute>
-              {% endif %}
+            <c-table.absolute direction="left">{{ form }}</c-table.absolute>
+            {% endif %}
 
             <div>{{ form.instance.name }}</div>
 
@@ -54,15 +48,11 @@ x-data="{ selectedRows: [] }">
         </c-table.row>
         {% empty %}
         <c-table.empty-row></c-table.empty-row>
+        {% endfor %}
 
     </c-table.body>
-    {% endfor %}
     <!-- end rows -->
 
 </c-table.table>
-
-{% endwith %}
-{% endwith %}
-{% endwith %}
 
 </form>

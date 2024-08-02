@@ -10,12 +10,11 @@
   filter_form_id="faculty-filter-form"
   url="{% url 'faculties:index' %}"></c-btns.excel>
 
-  {% if perms.faculties.add_faculty %}
+  {% if can_create %}
   <c-btns.icon
       datatype="href"
       title="{% translate 'add new record'|title %}"
-      href="{% url 'faculties:create' %}"
-  >
+      href="{% url 'faculties:create' %}">
       <c-icons.plus ratio="1rem"></c-icons.plus>
   </c-btns.icon>
   {% endif %} 

@@ -2,10 +2,7 @@
     <input
     @change="
       let isChecked = $event.target.checked;
-      let rowsChecks = document
-                      .querySelectorAll(
-                      `[id^='check'] input[type='checkbox']`
-                      );
+      let rowsChecks = document.querySelectorAll(`input[id^='id_form']`);
       rowsChecks.forEach(el => {
           el.checked = isChecked;
           let id = el.getAttribute('id');

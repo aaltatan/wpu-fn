@@ -18,7 +18,10 @@ from apps.base.mixins.bulk import BulkActionsMixin
 
 
 class ListTableView(
-    LoginRequiredMixin, PermissionRequiredMixin, ListMixin, ListView
+    LoginRequiredMixin, 
+    PermissionRequiredMixin, 
+    ListMixin, 
+    ListView
 ):
     
     permission_required = 'faculties.view_faculty'
@@ -39,7 +42,10 @@ class ListTableView(
     }
 
 class BulkActionsView(
-    LoginRequiredMixin, PermissionRequiredMixin, BulkActionsMixin, View
+    LoginRequiredMixin, 
+    PermissionRequiredMixin, 
+    BulkActionsMixin, 
+    View
 ):
     
     permission_required = ['faculties.delete_faculty']
@@ -47,7 +53,10 @@ class BulkActionsView(
 
 
 class CreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, CreateMixin, View
+    LoginRequiredMixin, 
+    PermissionRequiredMixin, 
+    CreateMixin, 
+    View
 ):
     
     permission_required = 'faculties.add_faculty'
@@ -57,7 +66,10 @@ class CreateView(
 
 
 class UpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UpdateMixin, View
+    LoginRequiredMixin, 
+    PermissionRequiredMixin, 
+    UpdateMixin, 
+    View
 ):
     
     permission_required = 'faculties.change_faculty'
