@@ -24,6 +24,7 @@ class SelectFacultyForm(forms.ModelForm):
             attrs={
                 'x-on:change': SCRIPT,
                 'class': 'accent-orange-500',
+                'data-check': '',
             }
         )
     )

@@ -3,7 +3,10 @@ export const addHitMessagesEventListeners = () => {
   if (elements.length) {
     elements.forEach((element) => {
       element.addEventListener("htmx:afterRequest", () => {
-        document.getElementById("messages").click();
+        const messagesElement = document.getElementById("messages");
+        if (messagesElement) {
+          messagesElement.click();
+        }
       });
     });
   }

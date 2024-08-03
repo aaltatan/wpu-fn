@@ -11,7 +11,7 @@
       class="font-semibold text-orange-500 hover:underline mx-1"
       role="button"
       @click="
-          const selector = `[id^='check'] input[type='checkbox']`
+          const selector = `[data-check]`
           document
               .querySelectorAll(selector)
               .forEach(el => el.checked = false);

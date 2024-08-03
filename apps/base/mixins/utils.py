@@ -1,4 +1,15 @@
+from django.shortcuts import render
+from django.urls import reverse
+
+
 class HelperMixin:
+    
+    def get_success_save_update_response(self):
+        response = render(self.request, self.get_index_template_name())
+        response['HX-Retarget'] = '#app'
+        response['HX-Reselect'] = '#app'
+        response['HX-Push-Url'] = reverse(self.get_success_path())
+        return response
 
     def get_default_ordering(self):
         

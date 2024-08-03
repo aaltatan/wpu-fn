@@ -3,7 +3,6 @@
 <div
   hx-swap="outerHTML"
   hx-include="[data-include]"
-  hx-indicator="#table-spinner"
   hx-vals='js:{
   order: `{% firstof request.GET.order default_column %}` === "{{ default_column }}" ? "-name" : "name" }'
   hx-trigger="click"

@@ -48,11 +48,6 @@ class UpdateMixin(utils.HelperMixin):
             messages.info(request, _('done'), 'bg-green-600')
             
             if request.POST.get('update'):
-                response = render(request, self.get_index_template_name())
-                response['Hx-Retarget'] = '#app'
-                response['Hx-Reselect'] = '#app'
-                response['Hx-Reswap'] = 'outerHTML'
-                response['Hx-Push-Url'] = reverse(self.get_success_path())
-                return response
+                return self.get_success_save_update_response()
             
         return render(request, self.form_template_name, context)

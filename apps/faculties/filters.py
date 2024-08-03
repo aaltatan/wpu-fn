@@ -18,7 +18,6 @@ attrs: dict[str, Any] = {
     'hx-get': reverse_lazy('faculties:index'),
     'hx-target': "#container",
     'hx-select': "#container",
-    'hx-indicator': "#table-spinner",
     'hx-trigger': 'input changed delay:500ms, search',
     'hx-swap': "outerHTML",
     'hx-include': "[data-include]",

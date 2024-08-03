@@ -37,14 +37,7 @@ class CreateMixin(utils.HelperMixin):
             messages.info(request, _('done'), 'bg-green-600')
             
             if request.POST.get('save'):
-                # response = render(request, self.get_index_template_name())
-                # response['Hx-Retarget'] = '#app'
-                # response['Hx-Reselect'] = '#app'
-                # response['Hx-Reswap'] = 'outerHTML'
-                response = HttpResponseRedirect(reverse(self.get_success_path()))
-                response['Hx-Push-Url'] = reverse(self.get_success_path())
-                # return response
-                return response
+                return self.get_success_save_update_response()
             
             if request.POST.get('save_and_add_another'):
                 context = {'form': self.form_class()}

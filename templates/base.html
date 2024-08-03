@@ -22,54 +22,55 @@
 
   </head>
 
-  <body 
-    hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'
-    x-init="
-    urls.map(el => {
-      return location.pathname.startsWith(el.url) 
-                ? el.isActive = true 
-                : el.isActive = false;
-    });
-    "
-    x-data="{
-      asideOpen: false, 
-      modalOpen: true,
-      breadCrumbs: [
-          {
-            text: '{% translate 'home' %}', 
-            href: '{% url 'base:index' %}'
-          },
-      ],
-      urls: [
-        {% if perms.faculties.view_faculty %}
-          {
-            text: '{% translate 'faculties' %}', 
-            url: '{% url 'faculties:index' %}', 
-            isActive: false,
-          },
-        {% endif %}
-      ]
-    }">
-    <div class="realtive">
+  <body hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }' hx-indicator="#spinner">
 
-      <span class="hidden" id="no-content"></span>
-      <c-layout.messages></c-layout.messages>
-      <div id="modal"></div>
+      <div class="realtive" id="app"
+        x-init="
+        urls.map(el => {
+          return location.pathname.startsWith(el.url) 
+                    ? el.isActive = true 
+                    : el.isActive = false;
+        });
+        "
+        x-data="{
+          asideOpen: false, 
+          modalOpen: true,
+          breadCrumbs: [
+              {
+                text: '{% translate 'home' %}', 
+                href: '{% url 'base:index' %}'
+              },
+          ],
+          urls: [
+            {% if perms.faculties.view_faculty %}
+              {
+                text: '{% translate 'faculties' %}', 
+                url: '{% url 'faculties:index' %}', 
+                isActive: false,
+              },
+            {% endif %}
+          ]
+        }"
+      >
 
-      <c-layout.header>
-        <c-layout.aside></c-layout.aside>
-      </c-layout.header>
+        <span class="hidden" id="no-content"></span>
+        <div id="modal"></div>
+        <c-layout.messages></c-layout.messages>
+        
+        <c-layout.header>
+          <c-layout.aside></c-layout.aside>
+        </c-layout.header>
+        
+        <main class="relative p-4 pt-8 mb-12 mx-auto w-[min(100%,1000px)] min-h-[calc(100vh-10rem)]">
+          <c-layout.spinner></c-layout.spinner>
+          {% block body %}{% endblock %}
+        </main>
+        
+        <c-layout.footer></c-layout.footer>
 
-      <main 
-      class="p-4 pt-8 mb-12 mx-auto w-[min(100%,1000px)] min-h-[calc(100vh-10rem)]">
-        {% block body %}{% endblock %}
-      </main>
-      
-      <c-layout.footer></c-layout.footer>
+      </div>
 
-    </div>
-
-    {% block scripts %}{% endblock %}
+      {% block scripts %}{% endblock %}
 
   </body>
 
