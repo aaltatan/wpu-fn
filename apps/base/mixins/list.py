@@ -24,7 +24,7 @@ class ListMixin(HelperMixin):
                 model_name = self.model._meta.model_name.title()
                 raise NotImplementedError(f'you implement {property} property on {model_name} model')
         
-        if not request.htmx:
+        if not request.htmx or request.htmx.boosted:
             return render(request, self.index_template_name, {})
         
         return super().get(request, *args, **kwargs)

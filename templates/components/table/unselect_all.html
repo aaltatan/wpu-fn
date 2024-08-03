@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div x-transition.duration.300 x-cloak x-show="selectedRows.length">
-  <p class="font-light text-left p-2 text-sm">
+  <p class="font-light ltr:text-left rtl:text-right p-2 text-sm">
     <span class="font-semibold" x-text="selectedRows.length"></span>
 
     <span>{% translate 'selected objects' %}</span>

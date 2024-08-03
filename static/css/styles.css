@@ -624,12 +624,24 @@ video {
   left: 0px;
 }
 
+.left-1 {
+  left: 0.25rem;
+}
+
 .left-1\/2 {
   left: 50%;
 }
 
+.left-2 {
+  left: 0.5rem;
+}
+
 .left-3 {
   left: 0.75rem;
+}
+
+.left-4 {
+  left: 1rem;
 }
 
 .left-\[-300px\] {
@@ -638,6 +650,10 @@ video {
 
 .right-0 {
   right: 0px;
+}
+
+.right-1 {
+  right: 0.25rem;
 }
 
 .right-2 {
@@ -1123,8 +1139,8 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-opacity-10 {
-  --tw-bg-opacity: 0.1;
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 
 .p-1 {
@@ -1513,6 +1529,87 @@ video {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
+}
+
+.ltr\:left-3:where([dir="ltr"], [dir="ltr"] *) {
+  left: 0.75rem;
+}
+
+.ltr\:right-3:where([dir="ltr"], [dir="ltr"] *) {
+  right: 0.75rem;
+}
+
+.ltr\:right-\[calc\(100\%\+4px\)\]:where([dir="ltr"], [dir="ltr"] *) {
+  right: calc(100% + 4px);
+}
+
+.ltr\:left-0:where([dir="ltr"], [dir="ltr"] *) {
+  left: 0px;
+}
+
+.ltr\:left-\[-300px\]:where([dir="ltr"], [dir="ltr"] *) {
+  left: -300px;
+}
+
+.ltr\:right-0:where([dir="ltr"], [dir="ltr"] *) {
+  right: 0px;
+}
+
+.ltr\:right-4:where([dir="ltr"], [dir="ltr"] *) {
+  right: 1rem;
+}
+
+.ltr\:ml-auto:where([dir="ltr"], [dir="ltr"] *) {
+  margin-left: auto;
+}
+
+.ltr\:text-left:where([dir="ltr"], [dir="ltr"] *) {
+  text-align: left;
+}
+
+.rtl\:left-3:where([dir="rtl"], [dir="rtl"] *) {
+  left: 0.75rem;
+}
+
+.rtl\:right-3:where([dir="rtl"], [dir="rtl"] *) {
+  right: 0.75rem;
+}
+
+.rtl\:left-\[calc\(100\%\+4px\)\]:where([dir="rtl"], [dir="rtl"] *) {
+  left: calc(100% + 4px);
+}
+
+.rtl\:left-\[-300px\]:where([dir="rtl"], [dir="rtl"] *) {
+  left: -300px;
+}
+
+.rtl\:right-0:where([dir="rtl"], [dir="rtl"] *) {
+  right: 0px;
+}
+
+.rtl\:right-\[-300px\]:where([dir="rtl"], [dir="rtl"] *) {
+  right: -300px;
+}
+
+.rtl\:left-0:where([dir="rtl"], [dir="rtl"] *) {
+  left: 0px;
+}
+
+.rtl\:left-4:where([dir="rtl"], [dir="rtl"] *) {
+  left: 1rem;
+}
+
+.rtl\:mr-auto:where([dir="rtl"], [dir="rtl"] *) {
+  margin-right: auto;
+}
+
+.rtl\:rotate-180:where([dir="rtl"], [dir="rtl"] *) {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.rtl\:text-right:where([dir="rtl"], [dir="rtl"] *) {
+  text-align: right;
 }
 
 .\[\&\:has\(\[aria-invalid\]\)\]\:bg-\[red\]:has([aria-invalid]) {

@@ -40,7 +40,7 @@ class FacultyForm(forms.ModelForm):
         fields = ['name']
         widgets = {
             'name': forms.TextInput({
-                'placeholder': _('faculty name').capitalize(),
+                'placeholder': _('faculty name'),
                 'autofocus': 'true',
                 'autocomplete': 'off',
             })

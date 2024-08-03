@@ -2,7 +2,7 @@
 
 <div
   x-cloak
-  :class="asideOpen ? 'left-0' : 'left-[-300px]' "
+  :class="asideOpen ? 'ltr:left-0 rtl:right-0' : 'ltr:left-[-300px] rtl:right-[-300px]' "
   class="fixed top-0 w-[min(100%,300px)] h-screen bg-slate-800 text-white shadow-sm z-50 duration-150"
 >
   <aside class="relative p-3 bg- h-full overflow-y-auto overflow-x-hidden">

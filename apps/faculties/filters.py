@@ -11,7 +11,7 @@ from . import models
 
 
 attrs: dict[str, Any] = {
-    'placeholder': _('search by the name').capitalize(),
+    'placeholder': _('search by the name'),
     'type': 'search',
     'autocomplete': 'off',
     'class': 'bg-slate-50 outline-none rounded-lg focus:ring-2 focus:ring-orange-500 duration-150 px-4 py-2',

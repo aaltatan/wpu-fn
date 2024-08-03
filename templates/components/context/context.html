@@ -1,3 +1,6 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
 <div class="relative inline-block" x-data="{openContext: false}">
 
   <c-btns.icon
@@ -12,7 +15,11 @@
     role="menu"
     x-show="openContext"
     @click.outside="openContext = false"
+    {% if LANGUAGE_CODE == 'ar' %}
+    x-transition.scale.0.origin.bottom.left.duration.150ms
+    {% else %}
     x-transition.scale.0.origin.bottom.right.duration.150ms
+    {% endif %}
     x-cloak
     class="divide-y divide-slate-100 rounded-lg overflow-hidden py-1 absolute w-[min(100px)] {{ class }} bg-white border border-slate-100 shadow-md z-50"
   >

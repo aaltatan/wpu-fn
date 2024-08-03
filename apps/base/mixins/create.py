@@ -1,7 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from django.urls import reverse
 from django.shortcuts import render
 
 from . import utils

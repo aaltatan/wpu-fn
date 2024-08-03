@@ -1,6 +1,7 @@
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-<div class="flex items-center justify-between">
+<div dir="ltr" class="flex items-center justify-between">
 
     <div class="flex items-center justify-between">
       {% if page_obj.has_previous %}
@@ -80,7 +81,9 @@
       <!--  -->
     </div>
 
-    <div class="text-sm flex items-center justify-center gap-1 text-slate-600">
+    <div 
+    dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}" 
+    class="text-sm flex items-center justify-center gap-1 text-slate-600">
 
         <span>{% translate 'record' %}</span>
         <span>{{ page_obj.start_index }}</span>

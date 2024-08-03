@@ -1,7 +1,8 @@
 {% load i18n %}
 
 {% if can_delete or can_update %}
-<c-context.context class="right-[calc(100%+4px)] bottom-2 min-w-[100px]">
+<c-context.context 
+class="ltr:right-[calc(100%+4px)] rtl:left-[calc(100%+4px)] bottom-2 min-w-[100px]">
 
   {% if can_delete %}
   <c-context.btn

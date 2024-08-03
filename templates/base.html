@@ -3,12 +3,14 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 <!DOCTYPE html>
-<html lang="en" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<html lang="en">
 
   <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="htmx-config" content='{"globalViewTransitions":true}'>
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
@@ -22,9 +24,13 @@
 
   </head>
 
-  <body hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }' hx-indicator="#spinner">
+  <body hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'>
 
-      <div class="realtive" id="app"
+      <div 
+        id="app" 
+        class="realtive" 
+        dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"
+        hx-boost="true"
         x-init="
         urls.map(el => {
           return location.pathname.startsWith(el.url) 

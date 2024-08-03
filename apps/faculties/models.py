@@ -8,7 +8,6 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.core.validators import MinLengthValidator
-from django.core.exceptions import ValidationError
 
 
 four_chars_validator = MinLengthValidator(
